@@ -1,0 +1,1 @@
+// tüm statelerin toplandığı yer
