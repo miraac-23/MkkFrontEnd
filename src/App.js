@@ -5,8 +5,10 @@ import Dashboard from './layouts/Dashboard.jsx'
 import { Menu,Container } from 'semantic-ui-react'
 
 
-
 function App() {
+
+
+
   return (
     <div className="App">
    <Navi/>

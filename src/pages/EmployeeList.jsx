@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeService from '../services/employeeService';
-import { Icon, Label, Menu, Table } from 'semantic-ui-react';
+import { Icon, Menu, Table } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 
 

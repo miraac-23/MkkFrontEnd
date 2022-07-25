@@ -1,7 +1,7 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from "yup";
-import { FormField, Button, Label } from "semantic-ui-react";
+import {  Button } from "semantic-ui-react";
 import MkkTextInput from '../utilities/customFormControls/MkkTextInput'
 
 
@@ -26,8 +26,18 @@ export default function EmployeeAdd() {
             >
 
                 <Form className="ui form">
-                    <MkkTextInput name="name" placeholder="Personel Adı" />
                     <MkkTextInput name="tcNo" placeholder="Tc No" />
+                    <MkkTextInput name="name" placeholder="Personel Adı" />
+                    <MkkTextInput name="surname" placeholder="Personel Soyadı" />
+                    <MkkTextInput name="startDateOfWork" placeholder="İşe Başlama Tarihi" />
+                    <MkkTextInput name="leaveDateOfWork" placeholder="İşten Ayrılma Tarihi" />
+                    <MkkTextInput name="birthday" placeholder="Doğum Günü" />
+                    <MkkTextInput name="phoneNumber" placeholder="Telefon Numarası" />
+                    <MkkTextInput name="email" placeholder="Email" />
+                    <MkkTextInput name="password" placeholder="Şifre" />
+                    <MkkTextInput name="userType" placeholder="Kullanıcı Tipi" />
+                    <MkkTextInput name="positionId" placeholder="Pozisyon Id si" />
+                    <MkkTextInput name="departmentId" placeholder="Departman Id si" />
 
                     {/* <FormField>
                         <Field name="name" placeholder="Personel Adı" ></Field>
