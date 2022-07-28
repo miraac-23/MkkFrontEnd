@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from "yup";
-import {  Button } from "semantic-ui-react";
+import { Button, Divider } from "semantic-ui-react";
 import MkkTextInput from '../utilities/customFormControls/MkkTextInput'
 import DepartmentService from '../services/departmentService';
 import axios from "axios";
@@ -33,10 +33,13 @@ export default function DeparmentAdd() {
                 }}
             >
 
-                <Form className="ui form">
+
+                <Form className="ui form" style={{ padding: '3em', marginBottom: '2em', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px', borderRadius: '10px' }}>
+                    <Divider horizontal style={{ marginBottom: '2em' }}>Departman Ekle</Divider>
+
                     <MkkTextInput name="name" placeholder="Departman Adı" />
 
-                    <Button color="green" type="submit" id='submitButton' >Ekle</Button>
+                    <Button color="blue" type="submit" id='submitButton' fluid >Ekle</Button>
 
                 </Form>
 

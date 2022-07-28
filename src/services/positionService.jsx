@@ -10,7 +10,12 @@ export default class PositionService{
 
     getPositions(){
 
-        return axios.get("http://localhost:8080/api/positions/getAll")
+        return axios.get("http://localhost:8080/api/positions/getAll");
+    }
+
+    deletePosition(id){
+
+        return axios.post("http://localhost:8080/api/positions/delete?positionEntity="+id);
     }
 
 }

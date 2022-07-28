@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PositionService from '../services/positionService';
-import { Icon, Menu, Table } from 'semantic-ui-react';
+import { Icon, Menu, Table, Button } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
 
 
 export default function PositionList() {
 
   const [positions, setPositions] = useState([]);
+  const positionService = new PositionService();
+  const [status, setStatus] = useState("");
+  const navigate = useNavigate();
+
+
 
   // useEffectin içerisine component yüklendiğinde yapılmasını istediğimiz kodu yazarız
   useEffect(() => {
@@ -17,13 +24,27 @@ export default function PositionList() {
   }, [])
 
 
+  function handleDelete(id) {
+
+    if (window.confirm("Are you sure delete?")) {
+        positionService.deletePosition(id)
+        .then(() => setStatus('Delete successful'));
+        navigate('/positionList');
+
+    }  
+}
+
+
+
   return (
     <div>
       <Table celled>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell>Id</Table.HeaderCell>
-            <Table.HeaderCell>Pozisyon Adı</Table.HeaderCell>    
+            <Table.HeaderCell>Pozisyon Adı</Table.HeaderCell>  
+            <Table.HeaderCell>Sil</Table.HeaderCell>
+  
           </Table.Row>
         </Table.Header>
 
@@ -35,6 +56,7 @@ export default function PositionList() {
               <Table.Row key={position.id}>
                 <Table.Cell>{position.id}</Table.Cell>
                 <Table.Cell>{position.name}</Table.Cell>
+                <Table.Cell><Button color="red" onClick={()=>handleDelete(position.id)} fluid >Sil</Button></Table.Cell>
               </Table.Row>
             ))
           }

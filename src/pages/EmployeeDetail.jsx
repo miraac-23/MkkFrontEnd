@@ -9,16 +9,18 @@ export default function EmployeeDetail() {
     const [employee, setEmployee] = useState({});
 
     // useEffectin içerisine component yüklendiğinde yapılmasını istediğimiz kodu yazarız
-    useEffect(() => {
+    // useEffect(() => {
 
-        let employeeService = new EmployeeService()
-        employeeService.getEmployeesByName(name).then(result => setEmployee(result.data.data))
+    //     let employeeService = new EmployeeService()
+    //     employeeService.getEmployeesByName(name).then(result => setEmployee(result.data.data))
 
-    }, [])
+    // }, [])
 
     return (
         <div>
-            <Card.Group>
+
+            PersonelId: {name}
+            {/* <Card.Group>
                 <Card fluid>
                     <Card.Content>
                         <Image
@@ -26,7 +28,7 @@ export default function EmployeeDetail() {
                             size='mini'
                             src='/images/avatar/large/steve.jpg'
                         />
-                        <Card.Header>{name}</Card.Header>
+                        <Card.Header>adı : {name}</Card.Header>
                         <Card.Meta>Miraç</Card.Meta>
                         <Card.Description>
                             Steve wants to add you to the group <strong>best friends</strong>
@@ -43,7 +45,7 @@ export default function EmployeeDetail() {
                         </div>
                     </Card.Content>
                 </Card>
-            </Card.Group>
+            </Card.Group> */}
         </div>
-    ) 
+    )
 }

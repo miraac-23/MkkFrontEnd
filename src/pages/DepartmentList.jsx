@@ -5,13 +5,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 
-
 export default function DepartmentList() {
 
     const [departments, setDepartments] = useState([]);
-    const departmentService = new DepartmentService()
-    const [data, setData] = useState([])
-    const [title, setTitle] = useState("")
+    const departmentService = new DepartmentService();
+    const [data, setData] = useState([]);
+    const [title, setTitle] = useState("");
+
+    const [status, setStatus] = useState("");
 
     // useEffectin içerisine component yüklendiğinde yapılmasını istediğimiz kodu yazarız
     useEffect(() => {
@@ -20,14 +21,16 @@ export default function DepartmentList() {
 
     }, [])
 
-    const postDelete = (id, error) => {
-        error.preventDefault()
-        axios.delete(`http://localhost:8080/api/departments/delete${id}`)
-          .then(res => console.log("Delete DATA", res))
-          .catch(error => console.log(error))
-      }
-
   
+    function handleDelete(id) {
+
+        if (window.confirm("Are you sure delete?")) {
+            departmentService.deleteDepartment(id)
+            .then(() => setStatus('Delete successful'));
+        }  
+    }
+
+
     return (
         <div>
             <Table celled>
@@ -35,7 +38,7 @@ export default function DepartmentList() {
                     <Table.Row>
                         <Table.HeaderCell>Id</Table.HeaderCell>
                         <Table.HeaderCell>Departman Adı</Table.HeaderCell>
-                        <Table.HeaderCell>Güncelle</Table.HeaderCell>
+                        {/* <Table.HeaderCell>Güncelle</Table.HeaderCell> */}
                         <Table.HeaderCell>Sil</Table.HeaderCell>
 
                     </Table.Row>
@@ -49,12 +52,12 @@ export default function DepartmentList() {
                             <Table.Row key={department.id}>
                                 <Table.Cell>{department.id}</Table.Cell>
                                 <Table.Cell>{department.name}</Table.Cell>
-                                <Table.Cell><Button color="twitter" >Güncelle</Button></Table.Cell>
-                                <Table.Cell><Button color="red" onClick={(error)=> postDelete(department.id , error)}  >Sil</Button></Table.Cell>
+                                {/* <Table.Cell><Button color="twitter" >Güncelle</Button></Table.Cell> */}
+                                <Table.Cell><Button color="red" onClick={()=>handleDelete(department.id)} fluid >Sil</Button></Table.Cell>
 
                                 <Table.Cell>
-      
-                                    </Table.Cell>
+
+                                </Table.Cell>
                             </Table.Row>
                         ))
                     }

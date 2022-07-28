@@ -1,20 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeService from '../services/employeeService';
-import { Icon, Menu, Table } from 'semantic-ui-react';
+import { Icon, Menu, Table, Button } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
+
+
+
 
 
 export default function EmployeeList() {
 
   const [employees, setEmployees] = useState([]);
+  const employeeService = new EmployeeService();
+  const [status, setStatus] = useState("");
+  const navigate = useNavigate();
+
 
   // useEffectin içerisine component yüklendiğinde yapılmasını istediğimiz kodu yazarız
   useEffect(() => {
 
-    let employeeService = new EmployeeService()
     employeeService.getEmployees().then(result => setEmployees(result.data.data))
 
   }, [])
+
+  function handleDelete(id) {
+
+    if (window.confirm("Are you sure delete?")) {
+      employeeService.deleteEmployee(id)
+        .then(() => setStatus('Delete successful'));
+    }
+  }
+
+  function handleUpdate(id) {
+   alert(id)
+
+  }
 
 
   return (
@@ -33,6 +54,9 @@ export default function EmployeeList() {
             <Table.HeaderCell>Kullanıcı Tipi</Table.HeaderCell>
             <Table.HeaderCell>Pozisyon</Table.HeaderCell>
             <Table.HeaderCell>Deapartman</Table.HeaderCell>
+            <Table.HeaderCell>Düzenle</Table.HeaderCell>
+            <Table.HeaderCell>Sil</Table.HeaderCell>
+
           </Table.Row>
         </Table.Header>
 
@@ -42,7 +66,7 @@ export default function EmployeeList() {
             employees.map(employee => (
 
               <Table.Row key={employee.id}>
-                <Table.Cell><Link to={`/mirac/${employee.name}`}>{employee.tcNo}</Link></Table.Cell>
+                <Table.Cell><Link to={`/employeeList/${employee.name}`}>{employee.tcNo}</Link></Table.Cell>
                 <Table.Cell>{employee.name}</Table.Cell>
                 <Table.Cell>{employee.surname}</Table.Cell>
                 <Table.Cell>{employee.startDateOfWork}</Table.Cell>
@@ -53,6 +77,9 @@ export default function EmployeeList() {
                 <Table.Cell>{employee.userType}</Table.Cell>
                 <Table.Cell>{employee.positionId}</Table.Cell>
                 <Table.Cell>{employee.departmentId}</Table.Cell>
+                <Table.Cell><Button color="green" onClick={() => handleUpdate(employee.id)} fluid >Düzenle</Button></Table.Cell>
+                <Table.Cell><Button color="red" onClick={() => handleDelete(employee.id)} fluid >Sil</Button></Table.Cell>
+
 
 
               </Table.Row>
