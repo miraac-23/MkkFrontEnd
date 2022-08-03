@@ -14,12 +14,12 @@ export default function EmployeeAdd() {
     const navigate = useNavigate();
 
 
-    const initialValues = { 
-        name: "", 
-        tcNo: 123, 
-        surname: "", 
-        startDateOfWork: "", 
-        leaveDateOfWork:"",
+    const initialValues = {
+        name: "",
+        tcNo: 123,
+        surname: "",
+        startDateOfWork: "",
+        leaveDateOfWork: "",
         birthday: "",
         phoneNumber: "",
         email: "",
@@ -27,8 +27,8 @@ export default function EmployeeAdd() {
         userType: "",
         positionId: "",
         departmentId: "",
-    
-    
+
+
     }
 
     const schema = Yup.object({
@@ -43,7 +43,7 @@ export default function EmployeeAdd() {
         userType: Yup.string().required("Kullanıcı Tipi"),
         positionId: Yup.number().required("Pozisyon Id Zorunlu"),
         departmentId: Yup.number().required("Departman Id Zorunlu"),
-        
+
     })
     return (
         <div>
@@ -58,6 +58,9 @@ export default function EmployeeAdd() {
                                 navigate('/employeeList');
                             })
                         }}
+                        validator={() => ({
+
+                        })}
                     >
 
                         <Form className='ui form' style={{ padding: '3em', marginBottom: '2em', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px', borderRadius: '10px' }}>

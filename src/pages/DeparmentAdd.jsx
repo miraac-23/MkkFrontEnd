@@ -28,7 +28,7 @@ export default function DeparmentAdd() {
                 onSubmit={(values) => {
                     departmentService.addDepartment(values).then(result => {
                         console.log(result);
-                        navigate('/');
+                        navigate('/departmentList');
                     })
                 }}
             >

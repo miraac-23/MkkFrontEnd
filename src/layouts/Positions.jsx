@@ -8,7 +8,7 @@ export default function Positions() {
     return (
         <div>
             <Menu pointing vertical>
-                <Menu.Item
+                {/* <Menu.Item
                     name='Personel Ekle'
                 />
                 <Menu.Item
@@ -20,20 +20,22 @@ export default function Positions() {
                 <Menu.Item
                     name='İzin Girişi'
                 >
-                </Menu.Item>
+                </Menu.Item> */}
+                <NavLink to="/employee/add" >Personel Ekleme </NavLink> <br />
+
+                <NavLink to="/department/add">Departman ekleme</NavLink> <br />
+
+                <NavLink to="/position/add">Pozisyon ekleme</NavLink> <br />
+
+                <NavLink to="/employeeList">Personel Listeleme </NavLink> <br />
+
+                <NavLink to="/departmentList">Departman Listeleme</NavLink> <br />
+
+                <NavLink to="/positionList">Pozisyon Listeleme</NavLink> <br />
+                
+
 
             </Menu>
-            <NavLink to="/employee/add">Personel Ekleme </NavLink> <br />
-
-            <NavLink to="/department/add">Departman ekleme</NavLink> <br />
-
-            <NavLink to="/position/add">Pozisyon ekleme</NavLink> <br />
-
-            <NavLink to="/employeeList">Personel Listeleme </NavLink> <br />
-
-            <NavLink to="/departmentList">Departman Listeleme</NavLink> <br />
-
-            <NavLink to="/positionList">Pozisyon Listeleme</NavLink> <br />
 
 
         </div >

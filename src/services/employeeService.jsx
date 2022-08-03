@@ -7,13 +7,13 @@ export default class EmployeeService{
 
     getEmployees(){
 
-      const axiosClient =  axios.create({
-            baseURL:"http://localhost:8080/",
-            withCredentials:true
-        })
+    //   const axiosClient =  axios.create({
+    //         baseURL:"http://localhost:8080/",
+    //         withCredentials:true
+    //     })
 
         //interceptors
-        return axiosClient.get("api/employees/getAll",{ headers: authHeader() } )
+        return axios.get("http://localhost:8080/api/employees/getAll",{ headers: authHeader() } )
     }
     getEmployeesByName(name){
 
@@ -22,7 +22,7 @@ export default class EmployeeService{
 
     addEmployee= body =>{
 
-        return axios.post("http://localhost:8080/api/employees/add",body)
+        return axios.post("http://localhost:8080/api/employees/add",body,{ headers: authHeader() })
     }
 
     updateEmployee() {
@@ -31,7 +31,7 @@ export default class EmployeeService{
     }
 
     deleteEmployee(id) {
-        return axios.post("http://localhost:8080/api/employees/delete?employeeEntity="+id);
+        return axios.delete("http://localhost:8080/api/employees/delete?employeeEntity="+id,{ headers: authHeader() });
     }
 
     

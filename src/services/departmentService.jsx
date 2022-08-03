@@ -1,23 +1,30 @@
 import axios from "axios";
+import authHeader from "./authHeader";
+const API_URL = "http://localhost:8080/api/";
 
 
-export default class DepartmentService{
+export default class DepartmentService {
 
 
-    addDepartment = body =>{
 
-        return axios.post("http://localhost:8080/api/departments/add",body);
+    addDepartment = body => {
+
+        return axios.post(API_URL + "departments/add", body, { headers: authHeader() });
     }
 
-    getDepartments(){
+    getDepartments() {
 
-        return axios.get("http://localhost:8080/api/departments/getAll")
+        return axios.get(API_URL + "departments/getAll", { headers: authHeader() });
     }
 
-    deleteDepartment (id) {
+    deleteDepartment(id) {
 
-        return axios.post("http://localhost:8080/api/departments/delete?departmentEntity="+id);
+        return axios.delete(API_URL + `departments/delete?departmentEntity=${id} ` , { headers: authHeader() } );
 
-    }
+    //http://localhost:8080/api/departments/delete?departmentEntity=
+
+}
+
+
 
 }

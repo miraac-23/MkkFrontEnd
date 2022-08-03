@@ -1,7 +1,6 @@
-import React from 'react';
 import EmployeeList from '../pages/EmployeeList'
 import Positions from './Positions';
-import { Button, Icon, Label, Grid } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react'
 import Position from './Positions';
 import { Routes, Route } from "react-router";
 import EmployeeDetail from '../pages/EmployeeDetail';
@@ -15,36 +14,36 @@ import EmployeeUpdate from '../pages/EmployeeUpdate';
 import PermissionAdd from '../pages/PermissionAdd';
 import PermissionList from '../pages/PermissionList';
 import Login from '../pages/Login';
+import HomePage from '../pages/HomePage';
+
 
 export default function Dashboard() {
+   
+    
     return (
         <div>
-            <Grid>
-                <Grid.Row>
-                    <Grid.Column width={4}>
-                        <Position />
-                    </Grid.Column>
-                    <Grid.Column width={12}>
-                        <Routes   >
-                            <Route exact path="/employeeList"  element={<EmployeeList/>} />
-                            <Route  path="/employeeList/:name"  element={<EmployeeDetail/>} />
-                            <Route  path="/employeeDetail"  element={<EmployeeDetail/>} />
-                            <Route  path="/employee/add"  element={<EmployeeAdd/>} />
-                            <Route  path="/department/add"  element={<DepartmentAdd/>} />
-                            <Route  path="/position/add"  element={<PositionAdd/>} />
-                            <Route  path="/departmentList"  element={<DepartmentList/>} />
-                            <Route  path="/positionList"  element={<PositionList/>} />
-                            <Route  path="/employeeUpdate"  element={<EmployeeUpdate/>} />
-                            <Route  path="/permissionAdd"  element={<PermissionAdd/>} />
-                            <Route  path="/permissionList"  element={<PermissionList/>} />
-                            <Route  path="/login"  element={<Login/>} />
+            <Grid >
+          
+            <Grid.Column >
+                <Routes  >
 
+                    <Route path="/" element={<HomePage/>} />
+                    <Route path="/login" element={<Login />} />
+                    <Route exact path="/employeeList" element={<EmployeeList />} />
+                    <Route path="/employeeList/:name" element={<EmployeeDetail />} />
+                    <Route path="/employeeDetail" element={<EmployeeDetail />} />
+                    <Route path="/employee/add" element={<EmployeeAdd />} />
+                    <Route path="/department/add" element={<DepartmentAdd />} />
+                    <Route path="/position/add" element={<PositionAdd />} />
+                    <Route path="/departmentList" element={<DepartmentList />} />
+                    <Route path="/positionList" element={<PositionList />} />
+                    <Route path="/employeeUpdate" element={<EmployeeUpdate />} />
+                    <Route path="/permissionAdd" element={<PermissionAdd />} />
+                    <Route path="/permissionList" element={<PermissionList />} />
 
-
-                        </Routes>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
-        </div>
+                </Routes>
+            </Grid.Column>
+        </Grid>
+        </div >
     )
 }
