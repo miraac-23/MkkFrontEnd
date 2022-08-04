@@ -45,35 +45,40 @@ export default function EmployeeList() {
       <Grid>
         <Grid.Row>
           <Grid.Column width={3}>
-            <Menu pointing vertical>
-              {/* <Menu.Item
-                    name='Personel Ekle'
-                />
-                <Menu.Item
-                    name='Departman Ekle'
-                />
-                <Menu.Item
-                    name='Pozisyon Ekle'
-                />
-                <Menu.Item
-                    name='İzin Girişi'
-                >
-                </Menu.Item> */}
-              <NavLink to="/employee/add" >Personel Ekleme </NavLink> <br />
+            <Table celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell style={{ textSize: '50px', textAlign: 'center', fontSize: '20px',fontWeight: 'bold' }}>Sayfalar</Table.HeaderCell>
 
-              <NavLink to="/department/add">Departman ekleme</NavLink> <br />
+                </Table.Row>
+              </Table.Header>
 
-              <NavLink to="/position/add">Pozisyon ekleme</NavLink> <br />
+              <Table.Body>
 
-              <NavLink to="/employeeList">Personel Listeleme </NavLink> <br />
+                <Table.Row >
+                  <Table.Cell style={{ backgroundColor: 'yellow' }}><NavLink to="/employee/add" style={{ color: 'red',textAlign: 'center', fontSize: '20px',fontWeight: 'bold'  }}>Personel Ekleme </NavLink> </Table.Cell>
+                </Table.Row>
+                <Table.Row >
+                  <Table.Cell><NavLink to="/department/add">Departman ekleme</NavLink> </Table.Cell>
+                </Table.Row>
+                <Table.Row >
+                  <Table.Cell><NavLink to="/position/add">Pozisyon ekleme</NavLink> </Table.Cell>
+                </Table.Row>
+                <Table.Row >
+                  <Table.Cell><NavLink to="/employeeList">Personel Listeleme </NavLink> </Table.Cell>
+                </Table.Row>
+                <Table.Row >
+                  <Table.Cell><NavLink to="/departmentList">Departman Listeleme</NavLink> </Table.Cell>
+                </Table.Row>
+                <Table.Row >
+                  <Table.Cell><NavLink to="/positionList">Pozisyon Listeleme</NavLink>  </Table.Cell>
+                </Table.Row>
 
-              <NavLink to="/departmentList">Departman Listeleme</NavLink> <br />
 
-              <NavLink to="/positionList">Pozisyon Listeleme</NavLink> <br />
+              </Table.Body>
 
+            </Table>
 
-
-            </Menu>
           </Grid.Column>
           <Grid.Column width={13}>
             <Table celled>

@@ -5,9 +5,9 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Grid, Button, Divider, Form as SemanticForm, Message, Card } from 'semantic-ui-react';
 
 export default function deneme() {
-    
+
     //Static for now, will come from session
-  
+
     return (
         <Grid.Row>
             <Grid.Column width={12}>
@@ -50,5 +50,8 @@ export default function deneme() {
                 </Formik>
             </Grid.Column>
         </Grid.Row>
+
+
+
     )
 }

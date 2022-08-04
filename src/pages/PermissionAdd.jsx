@@ -38,7 +38,7 @@ export default function PermissionAdd() {
         onSubmit={(values) => {
             permissionService.addPermission(values).then(result => {
                 console.log(result);
-                navigate('/');
+                navigate('/permissionList');
             })
         }}
     >
