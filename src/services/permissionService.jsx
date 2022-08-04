@@ -11,7 +11,7 @@ export default class PermissionService {
     }
 
     getPermissions(){
-        return axios.get("http://localhost:8080/api/permissions/getAll" , { headers: authHeader() })
+        return axios.get("http://localhost:8080/api/permissions/getPermissionWithEmployeeAndPermissionType" , { headers: authHeader() })
     }
 
     deletePermission(id){

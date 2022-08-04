@@ -56,8 +56,8 @@ export default function PermissionList() {
                                 <Table.Cell>{permission.endDate}</Table.Cell>
                                 <Table.Cell>{permission.permissionDay}</Table.Cell>
                                 <Table.Cell>{permission.statement}</Table.Cell>
-                                <Table.Cell>{permission.permissionTypeId}</Table.Cell>
-                                <Table.Cell>{permission.employeeId}</Table.Cell>
+                                <Table.Cell>{permission.permissionTypeName}</Table.Cell>
+                                <Table.Cell>{permission.employeeName}</Table.Cell>
 
                                 <Table.Cell><Button color="twitter" >Güncelle</Button></Table.Cell>
                                 <Table.Cell><Button color="red" onClick={() => handleDelete(permission.id)} fluid >Sil</Button></Table.Cell>

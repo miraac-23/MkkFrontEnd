@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 
 export default function EmployeeDetail() {
 
-    let { name } = useParams()
+    let { id } = useParams()
     const [employee, setEmployee] = useState({});
 
     // useEffectin içerisine component yüklendiğinde yapılmasını istediğimiz kodu yazarız
@@ -19,7 +19,7 @@ export default function EmployeeDetail() {
     return (
         <div>
 
-            PersonelId: {name}
+            PersonelId: {id}
             {/* <Card.Group>
                 <Card fluid>
                     <Card.Content>

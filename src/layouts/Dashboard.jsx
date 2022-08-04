@@ -30,14 +30,15 @@ export default function Dashboard() {
                     <Route path="/" element={<HomePage/>} />
                     <Route path="/login" element={<Login />} />
                     <Route exact path="/employeeList" element={<EmployeeList />} />
-                    <Route path="/employeeList/:name" element={<EmployeeDetail />} />
+                    <Route path="/employeeList/:id" element={<EmployeeDetail />} />
                     <Route path="/employeeDetail" element={<EmployeeDetail />} />
                     <Route path="/employee/add" element={<EmployeeAdd />} />
                     <Route path="/department/add" element={<DepartmentAdd />} />
                     <Route path="/position/add" element={<PositionAdd />} />
                     <Route path="/departmentList" element={<DepartmentList />} />
                     <Route path="/positionList" element={<PositionList />} />
-                    <Route path="/employeeUpdate" element={<EmployeeUpdate />} />
+                    <Route exact path="/employeeUpdate" element={<EmployeeUpdate />} />
+                    <Route path="/employeeUpdate:id" element={<EmployeeUpdate />} />
                     <Route path="/permissionAdd" element={<PermissionAdd />} />
                     <Route path="/permissionList" element={<PermissionList />} />
 

@@ -13,7 +13,7 @@ export default class EmployeeService{
     //     })
 
         //interceptors
-        return axios.get("http://localhost:8080/api/employees/getAll",{ headers: authHeader() } )
+        return axios.get("http://localhost:8080/api/employees/getEmployeeWithPosition",{ headers: authHeader() } )
     }
     getEmployeesByName(name){
 
@@ -32,6 +32,12 @@ export default class EmployeeService{
 
     deleteEmployee(id) {
         return axios.delete("http://localhost:8080/api/employees/delete?employeeEntity="+id,{ headers: authHeader() });
+    }
+
+    getEmployeeById(id) {
+
+        return axios.get("http://localhost:8080/api/employees/getById?id="+id,  { headers: authHeader() })
+
     }
 
     

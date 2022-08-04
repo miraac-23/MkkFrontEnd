@@ -6,11 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
 
 
-
-
-
-
-
 export default function EmployeeList() {
 
   const [employees, setEmployees] = useState([]);
@@ -48,7 +43,7 @@ export default function EmployeeList() {
             <Table celled>
               <Table.Header>
                 <Table.Row>
-                  <Table.HeaderCell style={{ textSize: '50px', textAlign: 'center', fontSize: '20px',fontWeight: 'bold' }}>Sayfalar</Table.HeaderCell>
+                  <Table.HeaderCell style={{ textSize: '50px', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>Sayfalar</Table.HeaderCell>
 
                 </Table.Row>
               </Table.Header>
@@ -56,10 +51,13 @@ export default function EmployeeList() {
               <Table.Body>
 
                 <Table.Row >
-                  <Table.Cell style={{ backgroundColor: 'yellow' }}><NavLink to="/employee/add" style={{ color: 'red',textAlign: 'center', fontSize: '20px',fontWeight: 'bold'  }}>Personel Ekleme </NavLink> </Table.Cell>
+                  <Table.Cell style={{ backgroundColor: 'yellow' }}><NavLink to="/employee/add" style={{ color: 'red', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>Personel Ekleme </NavLink> </Table.Cell>
                 </Table.Row>
                 <Table.Row >
                   <Table.Cell><NavLink to="/department/add">Departman ekleme</NavLink> </Table.Cell>
+                </Table.Row>
+                <Table.Row >
+                  <Table.Cell><NavLink to="/permissionAdd">İzin ekleme</NavLink> </Table.Cell>
                 </Table.Row>
                 <Table.Row >
                   <Table.Cell><NavLink to="/position/add">Pozisyon ekleme</NavLink> </Table.Cell>
@@ -72,6 +70,9 @@ export default function EmployeeList() {
                 </Table.Row>
                 <Table.Row >
                   <Table.Cell><NavLink to="/positionList">Pozisyon Listeleme</NavLink>  </Table.Cell>
+                </Table.Row>
+                <Table.Row >
+                  <Table.Cell><NavLink to="/permissionList">İzin Listeleme</NavLink>  </Table.Cell>
                 </Table.Row>
 
 
@@ -107,7 +108,7 @@ export default function EmployeeList() {
                   employees.map(employee => (
 
                     <Table.Row key={employee.id}>
-                      <Table.Cell><Link to={`/employeeList/${employee.name}`}>{employee.tcNo}</Link></Table.Cell>
+                      <Table.Cell><Link to={`/employeeUpdate${employee.id}`}>{employee.tcNo}</Link></Table.Cell>
                       <Table.Cell>{employee.name}</Table.Cell>
                       <Table.Cell>{employee.surname}</Table.Cell>
                       <Table.Cell>{employee.startDateOfWork}</Table.Cell>
@@ -116,8 +117,8 @@ export default function EmployeeList() {
                       <Table.Cell>{employee.phoneNumber}</Table.Cell>
                       <Table.Cell>{employee.email}</Table.Cell>
                       <Table.Cell>{employee.userType}</Table.Cell>
-                      <Table.Cell>{employee.positionId}</Table.Cell>
-                      <Table.Cell>{employee.departmentId}</Table.Cell>
+                      <Table.Cell>{employee.positionName}</Table.Cell>
+                      <Table.Cell>{employee.departmentName}</Table.Cell>
                       <Table.Cell><Button color="green" onClick={() => handleUpdate(employee.id)} fluid >Düzenle</Button></Table.Cell>
                       <Table.Cell><Button color="red" onClick={() => handleDelete(employee.id)} fluid >Sil</Button></Table.Cell>
 
