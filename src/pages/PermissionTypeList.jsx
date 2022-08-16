@@ -3,41 +3,45 @@ import DepartmentService from '../services/departmentService';
 import { Icon, Menu, Table, Button } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import axios from "axios";
+import PermissionTypeService from '../services/permissionTypeService';
+import { useNavigate } from 'react-router-dom';
 
-const departmentService = new DepartmentService();
 
-export default function DepartmentList() {
+const permissionTypeService = new PermissionTypeService();
+export default function PermissionTypeList() {
 
-    const [departments, setDepartments] = useState([]);
-    const [data, setData] = useState([]);
-    const [title, setTitle] = useState("");
+    const [permissionTypes , setPermissionTypes] = useState([]);
     const [status, setStatus] = useState("");
+    const navigate = useNavigate();
 
-    // useEffectin içerisine component yüklendiğinde yapılmasını istediğimiz kodu yazarız
+
     useEffect(() => {
+        
+        permissionTypeService.getPermissionTypes().then(result => setPermissionTypes(result.data.data))
 
-        departmentService.getDepartments().then(result => setDepartments(result.data.data))
+    },[])
 
-    }, [])
 
-  
     function handleDelete(id) {
 
         if (window.confirm("Are you sure delete?")) {
-            departmentService.deleteDepartment(id)
-            .then(() => setStatus('Delete successful'));
+            permissionTypeService.deletePermissionType(id)
+            .then(() => 
+            setStatus('Delete successful'),
+            navigate('/permissionTypeList')
+            
+            );
         }  
     }
 
 
     return (
         <div>
-            <Table celled>
+             <Table celled>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell>Id</Table.HeaderCell>
                         <Table.HeaderCell>Departman Adı</Table.HeaderCell>
-                        {/* <Table.HeaderCell>Güncelle</Table.HeaderCell> */}
                         <Table.HeaderCell>Sil</Table.HeaderCell>
 
                     </Table.Row>
@@ -46,13 +50,13 @@ export default function DepartmentList() {
                 <Table.Body>
 
                     {
-                        departments.map(department => (
+                        permissionTypes.map(permissionType => (
 
-                            <Table.Row key={department.id}>
-                                <Table.Cell>{department.id}</Table.Cell>
-                                <Table.Cell>{department.name}</Table.Cell>
+                            <Table.Row key={permissionType.name}>
+                                <Table.Cell>{permissionType.id}</Table.Cell>
+                                <Table.Cell>{permissionType.name}</Table.Cell>
                                 {/* <Table.Cell><Button color="twitter" >Güncelle</Button></Table.Cell> */}
-                                <Table.Cell><Button color="red" onClick={()=>handleDelete(department.id)} fluid >Sil</Button></Table.Cell>
+                                <Table.Cell><Button color="red" onClick={()=>handleDelete(permissionType.id)} fluid >Sil</Button></Table.Cell>
 
                                 <Table.Cell>
 
@@ -83,4 +87,8 @@ export default function DepartmentList() {
             </Table>
         </div>
     )
+
+
+
+
 }

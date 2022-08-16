@@ -15,6 +15,8 @@ import PermissionAdd from '../pages/PermissionAdd';
 import PermissionList from '../pages/PermissionList';
 import Login from '../pages/Login';
 import HomePage from '../pages/HomePage';
+import PermissionTypeAdd from '../pages/PermissionTypeAdd';
+import PermissionTypeList from '../pages/PermissionTypeList';
 
 
 export default function Dashboard() {
@@ -41,6 +43,13 @@ export default function Dashboard() {
                     <Route path="/employeeUpdate:id" element={<EmployeeUpdate />} />
                     <Route path="/permissionAdd" element={<PermissionAdd />} />
                     <Route path="/permissionList" element={<PermissionList />} />
+                    <Route path="/deneme" element={<Deneme />} />
+                    <Route path="/permissionTypeAdd" element={<PermissionTypeAdd />} />
+                    <Route path="/permissionTypeList" element={<PermissionTypeList />} />
+
+
+
+
 
                 </Routes>
             </Grid.Column>

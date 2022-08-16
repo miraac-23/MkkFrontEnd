@@ -1,25 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from "yup";
-import { Button, Divider } from "semantic-ui-react";
+import { Button, Divider, Dropdown, Select, Grid, Segment } from "semantic-ui-react";
 import MkkTextInput from '../utilities/customFormControls/MkkTextInput'
 import PermissionService from '../services/permissionService';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-
 export default function PermissionAdd() {
 
 
     const permissionService = new PermissionService();
-    const initialValues = { 
-        employeeId:"",
+    const initialValues = {
+        employeeId: "",
         endDate: "",
         permissionDay: "",
         permissionTypeId: "",
         startingDate: "",
         statement: "",
+
     }
+
 
     const navigate = useNavigate();
     const schema = Yup.object({
@@ -32,38 +33,41 @@ export default function PermissionAdd() {
     })
 
     return (
+
         <Formik
-        initialValues={initialValues}
-        validationSchema={schema}
-        onSubmit={(values) => {
-            permissionService.addPermission(values).then(result => {
-                console.log(result);
-                navigate('/permissionList');
-            })
-        }}
-    >
+            initialValues={initialValues}
+            validationSchema={schema}
+            onSubmit={(values) => {
+                permissionService.addPermission(values).then(result => {
+                    console.log(result);
+                    navigate('/permissionList');
+                })
+            }}
+        >
 
-        <Form className="ui form" style={{ padding: '3em', marginBottom: '2em', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px', borderRadius: '10px' }}>
-            <Divider horizontal style={{ marginBottom: '2em' }}>İzin Ekle</Divider>
+            <Form className="ui form" style={{ padding: '3em', marginBottom: '2em', boxShadow: 'rgba(50, 50, 93, 0.25) 0px 30px 60px -12px, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px', borderRadius: '10px' }}>
+                <Divider horizontal style={{ marginBottom: '2em' }}>İzin Ekle</Divider>
 
-            <label>İzin Başlangıç Tarihi</label>
-            <MkkTextInput name="startingDate" placeholder="İzin Başlangıç Tarihi" />
-            <label>İzin Bitiş Tarihi</label>
-            <MkkTextInput name="endDate" placeholder="İzin Bitiş Tarihi" />
-            <label>İzin Türü </label>
-            <MkkTextInput name="permissionTypeId" placeholder="İzin Türü" />
-            <label>Persone Id</label>
-            <MkkTextInput name="employeeId" placeholder="Personel Id" />
-            <label>İzin Günü</label>
-            <MkkTextInput name="permissionDay" placeholder="İzin Günü" />
-            <label>Açıklama</label>
-            <MkkTextInput name="statement" placeholder="Açıklama" />
+             
+                <label>İzin Başlangıç Tarihi</label>
+                <MkkTextInput name="startingDate" placeholder="İzin Başlangıç Tarihi" />
+                <label>İzin Bitiş Tarihi</label>
+                <MkkTextInput name="endDate" placeholder="İzin Bitiş Tarihi" />
+                <label>İzin Türü </label>
+                <MkkTextInput name="permissionTypeId" placeholder="İzin Türü" />
+                <label>Persone Id</label>
+                <MkkTextInput name="employeeId" placeholder="Personel Id" />
+                <label>İzin Günü</label>
+                <MkkTextInput name="permissionDay" placeholder="İzin Günü" />
+                <label>Açıklama</label>
+                <MkkTextInput name="statement" placeholder="Açıklama" />
 
 
-            <Button color="blue" type="submit"  fluid >Ekle</Button>
+                <Button color="blue" type="submit" fluid >Ekle</Button>
 
-        </Form>
+            </Form>
 
-    </Formik>
+        </Formik >
     )
 }
+<div role="combobox" aria-expanded="false" class="ui search selection upward dropdown"><input type="text" aria-autocomplete="list" autoComplete="off" class="search" tabindex="0" value="" /><div aria-atomic="true" aria-live="polite" role="alert" class="divider default text">Choose an option</div><i aria-hidden="true" class="dropdown icon"></i><div role="listbox" class="menu transition"><div style="pointer-events:all" role="option" aria-checked="false" aria-selected="true" class="selected item"><span class="text">One</span></div><div style="pointer-events:all" role="option" aria-checked="false" aria-selected="false" class="item"><span class="text">Two</span></div><div style="pointer-events:all" role="option" aria-checked="false" aria-selected="false" class="item"><span class="text">Three</span></div></div></div>

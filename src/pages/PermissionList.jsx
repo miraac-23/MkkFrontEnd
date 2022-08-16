@@ -3,6 +3,8 @@ import PermissionService from '../services/permissionService';
 import { Icon, Menu, Table, Button } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function PermissionList() {
 
@@ -12,6 +14,8 @@ export default function PermissionList() {
     const [title, setTitle] = useState("");
 
     const [status, setStatus] = useState("");
+    const navigate = useNavigate();
+
 
     useEffect(() => {
 
@@ -24,7 +28,8 @@ export default function PermissionList() {
 
         if (window.confirm("Are you sure delete?")) {
             permissionService.deletePermission(id)
-                .then(() => setStatus('Delete successful'));
+                .then(() => navigate('/permissionList'));
+                
         }
     }
 
@@ -39,7 +44,6 @@ export default function PermissionList() {
                         <Table.HeaderCell>Açıklama</Table.HeaderCell>
                         <Table.HeaderCell>İzin Türü</Table.HeaderCell>
                         <Table.HeaderCell>Personel</Table.HeaderCell>
-                        <Table.HeaderCell>Sil</Table.HeaderCell>
                         <Table.HeaderCell>Güncelle</Table.HeaderCell>
                         <Table.HeaderCell>Sil</Table.HeaderCell>
 

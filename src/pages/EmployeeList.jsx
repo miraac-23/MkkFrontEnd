@@ -30,7 +30,7 @@ export default function EmployeeList() {
   }
 
   function handleUpdate(id) {
-    alert(id)
+    navigate('/employeeUpdate'+id)
 
   }
 

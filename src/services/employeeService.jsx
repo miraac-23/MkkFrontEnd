@@ -36,8 +36,13 @@ export default class EmployeeService{
 
     getEmployeeById(id) {
 
-        return axios.get("http://localhost:8080/api/employees/getById?id="+id,  { headers: authHeader() })
+        return axios.get("http://localhost:8080/api/employees/getById?id="+id,  { headers: authHeader() });
 
+    }
+
+    updateEmployee = body =>{
+
+        return axios.post("http://localhost:8080/api/employees/update?id=",body ,  { headers: authHeader() });
     }
 
     
