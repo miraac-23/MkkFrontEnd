@@ -27,7 +27,7 @@ export default function Navi() {
 
     function handleSignedIn() {
         setIsAuthenticated(true)
-        navigate('/login')
+        navigate('/home')
     }
 
     function handleSignOut() {
@@ -40,8 +40,8 @@ export default function Navi() {
             <Menu inverted fixed="top" size="large">
                 <Container>
 
-                    <Menu.Item name='messages'><NavLink to="/">Gabim Mkk Gayrimenkul Bilgi Merkezi</NavLink></Menu.Item>
-                    <Menu.Item name='home'><NavLink to="/">Ana Sayfa</NavLink></Menu.Item>
+                    <Menu.Item name='messages'><NavLink to="/home">Gabim Mkk Gayrimenkul Bilgi Merkezi</NavLink></Menu.Item>
+                    <Menu.Item name='home'><NavLink to="/home">Ana Sayfa</NavLink></Menu.Item>
                     <Menu.Menu position='right'>
                         {
                             isAuthenticated ? <SignedIn signOut={handleSignedOut} /> : <SignOut signIn={handleSignedIn} />

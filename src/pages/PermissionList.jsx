@@ -29,7 +29,7 @@ export default function PermissionList() {
         if (window.confirm("Are you sure delete?")) {
             permissionService.deletePermission(id)
                 .then(() => navigate('/permissionList'));
-                
+
         }
     }
 
@@ -38,13 +38,16 @@ export default function PermissionList() {
             <Table celled>
                 <Table.Header>
                     <Table.Row>
+                        <Table.HeaderCell>Personel Adı</Table.HeaderCell>
+                        <Table.HeaderCell>Personel Soyadı</Table.HeaderCell>
+                        <Table.HeaderCell>Departman</Table.HeaderCell>
+                        <Table.HeaderCell>Pozisyon</Table.HeaderCell>
+                        <Table.HeaderCell>İzin Türü</Table.HeaderCell>
                         <Table.HeaderCell>İzin Başlangıç Tarihi</Table.HeaderCell>
                         <Table.HeaderCell>İzin Bitiş Tarihi</Table.HeaderCell>
                         <Table.HeaderCell>İzi Günü Sayısı</Table.HeaderCell>
                         <Table.HeaderCell>Açıklama</Table.HeaderCell>
-                        <Table.HeaderCell>İzin Türü</Table.HeaderCell>
-                        <Table.HeaderCell>Personel</Table.HeaderCell>
-                        <Table.HeaderCell>Güncelle</Table.HeaderCell>
+                        {/* <Table.HeaderCell>Güncelle</Table.HeaderCell> */}
                         <Table.HeaderCell>Sil</Table.HeaderCell>
 
                     </Table.Row>
@@ -56,14 +59,17 @@ export default function PermissionList() {
                         permissions.map(permission => (
 
                             <Table.Row key={permission.id}>
+                                <Table.Cell>{permission.employeeName}</Table.Cell>
+                                <Table.Cell>{permission.employeeSurname}</Table.Cell>
+                                <Table.Cell>{permission.employeeDepartment}</Table.Cell>
+                                <Table.Cell>{permission.employeePosition}</Table.Cell>
+                                <Table.Cell>{permission.permissionTypeName}</Table.Cell>
                                 <Table.Cell>{permission.startingDate}</Table.Cell>
                                 <Table.Cell>{permission.endDate}</Table.Cell>
                                 <Table.Cell>{permission.permissionDay}</Table.Cell>
                                 <Table.Cell>{permission.statement}</Table.Cell>
-                                <Table.Cell>{permission.permissionTypeName}</Table.Cell>
-                                <Table.Cell>{permission.employeeName}</Table.Cell>
 
-                                <Table.Cell><Button color="twitter" >Güncelle</Button></Table.Cell>
+                                {/* <Table.Cell><Button color="twitter" >Güncelle</Button></Table.Cell> */}
                                 <Table.Cell><Button color="red" onClick={() => handleDelete(permission.id)} fluid >Sil</Button></Table.Cell>
 
                                 <Table.Cell>
@@ -92,6 +98,7 @@ export default function PermissionList() {
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>
-            </Table>        </div>
+            </Table>
+        </div>
     )
 }

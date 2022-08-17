@@ -9,6 +9,7 @@ import MkkTextInput from '../utilities/customFormControls/MkkTextInput';
 
 export default function Login() {
 
+    const [role , setRole] = useState("");
 
     const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ export default function Login() {
     })
 
     return (
+
         <div>
 
                 <Header as='h2' color='brown' textAlign='center'>
@@ -41,11 +43,21 @@ export default function Login() {
                                 console.log(result.username);
 
                                 if (result.roles[0] === 'ROLE_Admin') {
-                                    navigate('/employeeList');
-                                } else {
-                                    navigate('/department/add');
+                                    setRole("Admin");
+                                    navigate('/home');
+                                } else if (result.roles[0] === 'ROLE_IK'){
+                                    setRole("IK");
+                                    navigate('/home');
+
+
+                                }else if (result.roles[0] === 'ROLE_Personel'){
+                                    setRole("Personel");
+                                    navigate('/home');
+
 
                                 }
+
+
                             })
                         }}
                         validator={() => ({

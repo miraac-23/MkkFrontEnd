@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeService from '../services/employeeService';
-import { Icon, Menu, Table, Button, Grid } from 'semantic-ui-react';
+import { Icon, Menu, Table, Button, Grid,Divider } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
@@ -30,7 +30,12 @@ export default function EmployeeList() {
   }
 
   function handleUpdate(id) {
-    navigate('/employeeUpdate'+id)
+    navigate('/employeeUpdate' + id)
+
+  }
+
+  function handlePermission(id) {
+    navigate('/permissionAdd' + id)
 
   }
 
@@ -39,7 +44,7 @@ export default function EmployeeList() {
     <div>
       <Grid>
         <Grid.Row>
-          <Grid.Column width={3}>
+          {/* <Grid.Column width={3}>
             <Table celled>
               <Table.Header>
                 <Table.Row>
@@ -80,8 +85,10 @@ export default function EmployeeList() {
 
             </Table>
 
-          </Grid.Column>
-          <Grid.Column width={13}>
+          </Grid.Column> */}
+          <Grid.Column width={16}>
+          <Divider horizontal style={{textSize: '1000px', marginBottom: '2em', marginLeft: '6em',fontSize: '30px', fontWeight: 'bold' }}>PERSONEL LİSTESİ</Divider>
+
             <Table celled>
               <Table.Header>
                 <Table.Row>
@@ -97,6 +104,7 @@ export default function EmployeeList() {
                   <Table.HeaderCell>Pozisyon</Table.HeaderCell>
                   <Table.HeaderCell>Deapartman</Table.HeaderCell>
                   <Table.HeaderCell>Düzenle</Table.HeaderCell>
+                  <Table.HeaderCell>İzin Ekle</Table.HeaderCell>
                   <Table.HeaderCell>Sil</Table.HeaderCell>
 
                 </Table.Row>
@@ -120,6 +128,7 @@ export default function EmployeeList() {
                       <Table.Cell>{employee.positionName}</Table.Cell>
                       <Table.Cell>{employee.departmentName}</Table.Cell>
                       <Table.Cell><Button color="green" onClick={() => handleUpdate(employee.id)} fluid >Düzenle</Button></Table.Cell>
+                      <Table.Cell><Button color="blue" onClick={() => handlePermission(employee.id)} fluid >İzin Ekle</Button></Table.Cell>
                       <Table.Cell><Button color="red" onClick={() => handleDelete(employee.id)} fluid >Sil</Button></Table.Cell>
 
                     </Table.Row>

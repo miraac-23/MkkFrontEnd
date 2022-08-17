@@ -5,7 +5,7 @@ export default function SignOut({signIn}) {
     return (
         <div>
             <Menu.Item>
-                <Button onClick={signIn} primary>Giriş Yap</Button>
+                <Button onClick={signIn} primary>Çıkış Yap</Button>
 
             </Menu.Item>
 
