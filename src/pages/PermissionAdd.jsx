@@ -23,6 +23,7 @@ export default function PermissionAdd() {
     const [permissionTypeId, setPermissionTypeId] = useState();
     const [permissionTypes, setPermissionTypes] = useState([]);
     const permissionService = new PermissionService();
+    
     const initialValues = {
         employeeId: id,
         endDate: "",
@@ -163,3 +164,10 @@ export default function PermissionAdd() {
     )
 }
 <div role="combobox" aria-expanded="false" class="ui search selection upward dropdown"><input type="text" aria-autocomplete="list" autoComplete="off" class="search" tabindex="0" value="" /><div aria-atomic="true" aria-live="polite" role="alert" class="divider default text">Choose an option</div><i aria-hidden="true" class="dropdown icon"></i><div role="listbox" class="menu transition"><div style="pointer-events:all" role="option" aria-checked="false" aria-selected="true" class="selected item"><span class="text">One</span></div><div style="pointer-events:all" role="option" aria-checked="false" aria-selected="false" class="item"><span class="text">Two</span></div><div style="pointer-events:all" role="option" aria-checked="false" aria-selected="false" class="item"><span class="text">Three</span></div></div></div>
+
+
+
+
+
+
+

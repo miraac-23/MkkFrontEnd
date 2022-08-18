@@ -45,6 +45,11 @@ export default class EmployeeService{
         return axios.post("http://localhost:8080/api/employees/update?id=",body ,  { headers: authHeader() });
     }
 
+    getEmployeeByTcNo(tcNo){
+
+        return axios.get("http://localhost:8080/api/employees/getByTcNo?tcNo="+tcNo, { headers: authHeader() });
+    }
+
     
 
 

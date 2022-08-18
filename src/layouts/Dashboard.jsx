@@ -19,6 +19,7 @@ import PermissionTypeAdd from '../pages/PermissionTypeAdd';
 import PermissionTypeList from '../pages/PermissionTypeList';
 import NoAccesPermission from '../pages/NoAccesPermission';
 import EmployeePermission from '../pages/EmployeePermission';
+import EmployeePermissionList from '../pages/EmployeePermissionList';
 
 
 export default function Dashboard() {
@@ -37,8 +38,8 @@ export default function Dashboard() {
                         <Route path="/employeeList/:id" element={<EmployeeDetail />} />
                         <Route path="/employeeDetail" element={<EmployeeDetail />} />
                         <Route path="/employee/add" element={<EmployeeAdd />} />
-                        <Route path="/department/add" element={<DepartmentAdd />} />
-                        <Route path="/position/add" element={<PositionAdd />} />
+                        <Route path="/departmentAdd" element={<DepartmentAdd />} />
+                        <Route path="/positionAdd" element={<PositionAdd />} />
                         <Route path="/departmentList" element={<DepartmentList />} />
                         <Route path="/positionList" element={<PositionList />} />
                         <Route exact path="/employeeUpdate" element={<EmployeeUpdate />} />
@@ -50,7 +51,13 @@ export default function Dashboard() {
                         <Route path="/permissionTypeAdd" element={<PermissionTypeAdd />} />
                         <Route path="/permissionTypeList" element={<PermissionTypeList />} />
                         <Route path="/noAccessPermission" element={<NoAccesPermission />} />
-                        <Route path="/employeePermission" element={<EmployeePermission />} />
+                        <Route path="/employeePermission" element={<EmployeePermission />} />s
+                        <Route exact path="/employeePermissionList" element={<EmployeePermissionList />} />
+                        <Route path="/employeePermissionList:tcNo" element={<EmployeePermissionList />} />
+
+
+
+
 
 
                     </Routes>

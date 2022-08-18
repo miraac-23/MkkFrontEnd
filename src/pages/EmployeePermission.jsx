@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import EmployeeService from '../services/employeeService';
 import { Formik, Form } from 'formik';
 import { Icon, Menu, Table, Button, Grid, Divider, Card, Image } from 'semantic-ui-react';
@@ -9,6 +9,8 @@ import MkkTextInput from '../utilities/customFormControls/MkkTextInput'
 import PermissionTypeService from '../services/permissionTypeService';
 import PermissionService from '../services/permissionService';
 import * as Yup from "yup";
+import { useParams } from 'react-router';
+
 
 
 
@@ -20,14 +22,21 @@ const permissionService = new PermissionService();
 
 export default function EmployeeList() {
 
-    const [employees, setEmployees] = useState([]);
-    const [employee, setEmployee] = useState(null, {})
+
+
+    const [employees, setEmployees] = useState([null]);
+    const [employee, setEmployee] = useState({})
     const employeeService = new EmployeeService();
     const [status, setStatus] = useState("");
     const navigate = useNavigate();
     const [permissionTypeId, setPermissionTypeId] = useState();
     const [permissionTypes, setPermissionTypes] = useState([]);
-    const [tcNo , setTcNo] = useState();
+    const [error, setError] = useState("");
+
+
+
+
+
 
 
     const initialValues = {
@@ -40,37 +49,6 @@ export default function EmployeeList() {
 
     }
 
-    const found = employees.find(obj => {
-        return obj.tcNo === 9874;
-    })
-
-
-    console.log(found);
-
-    useEffect(() => {
-
-        employeeService.getEmployees().then(result => setEmployees(result.data.data))
-
-    }, [])
-
-    useEffect(() => {
-        permissionTypeService.getPermissionTypes().then(result => setPermissionTypes(result.data.data));
-
-
-    }, [])
-
-
-    const handleChangePermissionTypeId = (e) => {
-
-        setPermissionTypeId(e.target.value);
-
-        console.log(e.target.value)
-
-    };
-
-
-
-
     const schema = Yup.object({
         employeeId: Yup.number().required("Personel Id girilmesi zorunlu"),
         endDate: Yup.date().required("İzin bitiş tarihi girilmesi zorunlu"),
@@ -81,31 +59,45 @@ export default function EmployeeList() {
     })
 
 
+    useEffect(() => {
 
 
-    function handleDelete(id) {
+        employeeService.getEmployees().then(result => setEmployees(result.data.data)).catch(error => setError(error));
+        permissionTypeService.getPermissionTypes().then(result => setPermissionTypes(result.data.data));
+        // employeeService.getEmployeeByTcNo().then(result => setEmployee(result.data.data));
 
-        if (window.confirm("Are you sure delete?")) {
-            employeeService.deleteEmployee(id)
-                .then(() => setStatus('Delete successful'));
+
+    }, [])
+
+
+
+
+
+
+
+    const handleChangePermissionTypeId = (e) => {
+
+        setPermissionTypeId(e.target.value);
+
+        console.log(e.target.value)
+
+    };
+
+    function handleClick() {
+        if (employees === null) {
+            alert("error")
+        } else {
+            employees.find(employee =>employee.tcNo === 5555);
+            
         }
-    }
-
-    function handleUpdate(id) {
-        navigate('/employeeUpdate' + id)
 
     }
 
-    function handlePermission(id) {
-        navigate('/permissionAdd' + id)
-
-    }
 
 
 
     return (
         <div>
-
 
             <Grid>
                 <Divider horizontal style={{ textSize: '1000px', marginBottom: '2em', marginLeft: '15em', fontSize: '30px', fontWeight: 'bold' }}>PERSONEL LİSTESİ</Divider>
@@ -113,21 +105,8 @@ export default function EmployeeList() {
                 <Grid.Row>
                     <Grid.Column width={5}>
 
-
-                        <Card>
-                            <Card.Content>
-                                <Card.Header>
-                                    <input />
-                                </Card.Header><br/>
-                                <Card.Meta>
-                                    <Button>Onayla</Button>
-                                </Card.Meta>
-                                <Card.Description>
-                                </Card.Description>
-                            </Card.Content>
-                            
-                        </Card>
-
+                        <label>mirac</label>
+                        <Button onClick={handleClick}>deneme</Button>
 
 
                     </Grid.Column>
@@ -166,7 +145,7 @@ export default function EmployeeList() {
                                 <MkkTextInput name="endDate" placeholder="İzin Bitiş Tarihi" />
 
                                 <label>Persone Id</label>
-                                <MkkTextInput name="employeeId" placeholder="Personel Id"  />
+                                <MkkTextInput name="employeeId" placeholder="Personel Id" />
                                 <label>İzin Günü</label>
                                 <MkkTextInput name="permissionDay" placeholder="İzin Günü" />
                                 <label>Açıklama</label>
