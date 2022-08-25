@@ -14,6 +14,9 @@ export default function Navi() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const navigate = useNavigate();
 
+    const [role, setRole] = useState(JSON.parse(window.localStorage.getItem("user")));
+
+
 
 
     function handleSignedOut() {
@@ -23,11 +26,13 @@ export default function Navi() {
         navigate('/')
 
 
+
     }
 
     function handleSignedIn() {
         setIsAuthenticated(true)
         navigate('/home')
+
     }
 
     function handleSignOut() {
@@ -40,12 +45,21 @@ export default function Navi() {
             <Menu inverted fixed="top" size="large">
                 <Container>
 
-                    <Menu.Item name='messages'><NavLink to="/home">Gabim Mkk Gayrimenkul Bilgi Merkezi</NavLink></Menu.Item>
-                    <Menu.Item name='home'><NavLink to="/home">Ana Sayfa</NavLink></Menu.Item>
+                    <Menu.Item name='messages'><a href="https://mkkgabim.com.tr/">Gabim Mkk Gayrimenkul Bilgi Merkezi</a></Menu.Item>
+
+                    {
+                        role ? <Menu.Item name='home'><NavLink to="/home">Ana Sayfa</NavLink></Menu.Item>  : <Menu.Item ></Menu.Item>
+                    }
+
+                    {/* <Menu.Item name='home'><NavLink to="/home">Ana Sayfa</NavLink></Menu.Item> */}
+
+
                     <Menu.Menu position='right'>
+
                         {
                             isAuthenticated ? <SignedIn signOut={handleSignedOut} /> : <SignOut signIn={handleSignedIn} />
                         }
+
                     </Menu.Menu>
                 </Container>
 

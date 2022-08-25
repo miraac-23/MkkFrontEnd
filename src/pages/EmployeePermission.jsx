@@ -12,9 +12,6 @@ import * as Yup from "yup";
 import { useParams } from 'react-router';
 
 
-
-
-
 const permissionTypeService = new PermissionTypeService();
 const employeeService = new EmployeeService();
 const permissionService = new PermissionService();
@@ -23,37 +20,33 @@ const permissionService = new PermissionService();
 export default function EmployeeList() {
 
 
+    const navigate = useNavigate();
 
-    const [employees, setEmployees] = useState([null]);
+    const [employees, setEmployees] = useState([]);
     const [employee, setEmployee] = useState({})
     const employeeService = new EmployeeService();
     const [status, setStatus] = useState("");
-    const navigate = useNavigate();
     const [permissionTypeId, setPermissionTypeId] = useState();
+    const [employeeId, setEmployeeId] = useState();
     const [permissionTypes, setPermissionTypes] = useState([]);
     const [error, setError] = useState("");
+    const [tcValue, setTcValue] = useState();
 
-
-
+    const [employeeDate , setEmployeeDate] = useState();
 
 
 
 
     const initialValues = {
-        employeeId: "",
         endDate: "",
         permissionDay: "",
-        // permissionTypeId: "",
         startingDate: "",
         statement: "",
-
     }
 
     const schema = Yup.object({
-        employeeId: Yup.number().required("Personel Id girilmesi zorunlu"),
         endDate: Yup.date().required("İzin bitiş tarihi girilmesi zorunlu"),
         permissionDay: Yup.number().required("İzin günü girilmesi zorunlu"),
-        // permissionTypeId: Yup.number().required("İzin türü id girilmesi zorunlu"),
         startingDate: Yup.date().required("İzin başlangıç tarihi girilmesi zorunlu"),
 
     })
@@ -61,17 +54,10 @@ export default function EmployeeList() {
 
     useEffect(() => {
 
-
         employeeService.getEmployees().then(result => setEmployees(result.data.data)).catch(error => setError(error));
         permissionTypeService.getPermissionTypes().then(result => setPermissionTypes(result.data.data));
-        // employeeService.getEmployeeByTcNo().then(result => setEmployee(result.data.data));
-
 
     }, [])
-
-
-
-
 
 
 
@@ -79,34 +65,105 @@ export default function EmployeeList() {
 
         setPermissionTypeId(e.target.value);
 
-        console.log(e.target.value)
-
     };
 
-    function handleClick() {
-        if (employees === null) {
-            alert("error")
-        } else {
-            employees.find(employee =>employee.tcNo === 5555);
-            
+
+    function handle() {
+
+        try {
+            const found = employees.find((employee) => employee.tcNo == state)
+            setEmployee(found)
+            let newDate = new Date()
+            let date = newDate.getUTCFullYear();
+            // console.log(date);
+            // console.log(found);
+
+            let finddate = date - found.startDateOfWork.substring(0, 4);
+            setEmployeeDate(finddate)
+            setEmployeeId(found.id)
+
+            console.log(finddate);
+        } catch (e) {
+            alert('Girmiş olduğunuz Tc kimlik numarasına ait personel bulunamadı, geçerli bir kimlik numarası giriniz !...')
+            window.location.reload();
         }
+
 
     }
 
 
+
+    const [state, setState] = useState('');
+    const [message, setMessage] = useState();
+
+
+
+
+    const handleChange = (event) => {
+        setState(event.target.value);
+    }
+
+
+    const handlehandleEmployeeIdChange = (event) => {
+        setEmployeeId(event.target.value);
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+    }
+    function handleRefresh() {
+        window.location.reload();
+    }
 
 
     return (
         <div>
 
             <Grid>
-                <Divider horizontal style={{ textSize: '1000px', marginBottom: '2em', marginLeft: '15em', fontSize: '30px', fontWeight: 'bold' }}>PERSONEL LİSTESİ</Divider>
+                <Divider horizontal style={{ textSize: '1000px', marginBottom: '2em', marginLeft: '15em', fontSize: '30px', fontWeight: 'bold' }}>PERSONEL İZİN EKLEME</Divider>
 
                 <Grid.Row>
                     <Grid.Column width={5}>
 
-                        <label>mirac</label>
-                        <Button onClick={handleClick}>deneme</Button>
+                        <form
+                            onSubmit={handleSubmit}>
+                            <label style={{ fontSize: '23px', fontWeight: 'bold', marginTop: '1em' }}>Tc Kimlik Numaranızı Giriniz</label> <br />
+
+
+                            <input style={{ border: '3px solid black', borderRadius: '5px', width: '85%', height: '2.5em', marginBottom: '1em', marginTop: '1em' }} type="text" onChange={handleChange} /><br />
+
+                            <Button color='green' onClick={handle} >Ara</Button>
+                            <Button style={{ marginBottom: '3em' }} color='green' onClick={handleRefresh} >Yenile</Button><br />
+
+
+
+                            <Card style={{ marginLeft: '1.5em' }}>
+                                <Card.Content>
+                                    <Card.Header style={{ fontSize: '30px', fontWeight: 'bold', }}>Personel</Card.Header>
+                                    <Card.Meta>
+                                        <span style={{ fontWeight: 'bold', }} className='date'>Adı: {employee.name}</span><br />
+                                        <span style={{ fontWeight: 'bold', }} className='date'>Soyadı: {employee.surname}</span><br />
+                                        <span style={{ fontWeight: 'bold', }} className='date'>Departman: {employee.departmentName}</span><br />
+                                        <span style={{ fontWeight: 'bold', }} className='date'>Pozisyon: {employee.positionName}</span><br />
+                                        <span style={{ fontWeight: 'bold', }} className='date'>Telefon No: {employee.phoneNumber}</span><br />
+                                    </Card.Meta>
+
+                                </Card.Content>
+                                <Card.Content extra>
+                                    <Link to="/home">
+
+                                        <Icon name='home' />
+                                        Ana Sayfa
+
+                                    </Link>
+                                </Card.Content>
+                            </Card>
+
+                            {/* <button onClick={handle} >Submit</button><br/> */}
+
+                        </form>
+
+
 
 
                     </Grid.Column>
@@ -117,7 +174,7 @@ export default function EmployeeList() {
                             validationSchema={schema}
                             onSubmit={(values) => {
 
-                                const data = { ...values, permissionTypeId }
+                                const data = { ...values, permissionTypeId, employeeId }
                                 permissionService.addPermission(data).then(result => {
                                     console.log(result);
                                     navigate('/permissionList');
@@ -144,8 +201,15 @@ export default function EmployeeList() {
                                 <label>İzin Bitiş Tarihi</label>
                                 <MkkTextInput name="endDate" placeholder="İzin Bitiş Tarihi" />
 
+
+
                                 <label>Persone Id</label>
-                                <MkkTextInput name="employeeId" placeholder="Personel Id" />
+                                <input type="text" name="employeeId" placeholder="Personel Id'si" defaultValue={employeeId} disabled />
+
+
+                                {/* <MkkTextInput name="employeeId" placeholder="Personel Id"  onChange={handlehandleEmployeeIdChange} value={employeeId} /> */}
+
+
                                 <label>İzin Günü</label>
                                 <MkkTextInput name="permissionDay" placeholder="İzin Günü" />
                                 <label>Açıklama</label>
@@ -155,7 +219,6 @@ export default function EmployeeList() {
                                 <Button color="blue" type="submit" fluid >Ekle</Button>
 
                             </Form>
-
 
                         </Formik >
 

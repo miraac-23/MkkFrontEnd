@@ -25,10 +25,7 @@ export default class EmployeeService{
         return axios.post("http://localhost:8080/api/employees/add",body,{ headers: authHeader() })
     }
 
-    updateEmployee() {
-
-        return axios.post
-    }
+ 
 
     deleteEmployee(id) {
         return axios.delete("http://localhost:8080/api/employees/delete?employeeEntity="+id,{ headers: authHeader() });

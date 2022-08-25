@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import EmployeeService from '../services/employeeService';
-import { Icon, Menu, Table, Button, Grid,Divider } from 'semantic-ui-react';
+import { Icon, Menu, Table, Button, Grid, Divider } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { NavLink } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive';
+
 
 
 export default function EmployeeList() {
@@ -12,6 +14,25 @@ export default function EmployeeList() {
   const employeeService = new EmployeeService();
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
+
+
+  const Desktop = ({ children }) => {
+    const isDesktop = useMediaQuery({ minWidth: 992 })
+    return isDesktop ? children : null
+  }
+  const Tablet = ({ children }) => {
+    const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 })
+    return isTablet ? children : null
+  }
+  const Mobile = ({ children }) => {
+    const isMobile = useMediaQuery({ maxWidth: 767 })
+    return isMobile ? children : null
+  }
+  const Default = ({ children }) => {
+    const isNotMobile = useMediaQuery({ minWidth: 768 })
+    return isNotMobile ? children : null
+  }
+
 
 
   // useEffectin içerisine component yüklendiğinde yapılmasını istediğimiz kodu yazarız
@@ -24,8 +45,8 @@ export default function EmployeeList() {
   function handleDelete(id) {
 
     if (window.confirm("Are you sure delete?")) {
-      employeeService.deleteEmployee(id)
-        .then(() => setStatus('Delete successful'));
+      employeeService.deleteEmployee(id).then(() => setStatus('Delete successful'));
+      window.location.reload();
     }
   }
 
@@ -41,10 +62,11 @@ export default function EmployeeList() {
 
 
   return (
-    <div>
-      <Grid>
-        <Grid.Row>
-          {/* <Grid.Column width={3}>
+    
+      <div>
+        <Grid>
+          <Grid.Row>
+            {/* <Grid.Column width={3}>
             <Table celled>
               <Table.Header>
                 <Table.Row>
@@ -86,80 +108,81 @@ export default function EmployeeList() {
             </Table>
 
           </Grid.Column> */}
-          <Grid.Column width={16}>
-          <Divider horizontal style={{textSize: '1000px', marginBottom: '2em', marginLeft: '6em',fontSize: '30px', fontWeight: 'bold' }}>PERSONEL LİSTESİ</Divider>
+            <Grid.Column width={16}>
+              <Divider horizontal style={{ textSize: '1000px', marginBottom: '2em', marginLeft: '6em', fontSize: '30px', fontWeight: 'bold' }}>PERSONEL LİSTESİ</Divider>
 
-            <Table celled>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell>Tc No</Table.HeaderCell>
-                  <Table.HeaderCell>Personel Adı</Table.HeaderCell>
-                  <Table.HeaderCell>Personel Soyadı</Table.HeaderCell>
-                  <Table.HeaderCell>İşe Başlama Tarihi</Table.HeaderCell>
-                  <Table.HeaderCell>İşten Ayrılma Tarihi</Table.HeaderCell>
-                  <Table.HeaderCell>Doğum Günü</Table.HeaderCell>
-                  <Table.HeaderCell>Telefon Numarası</Table.HeaderCell>
-                  <Table.HeaderCell>Email</Table.HeaderCell>
-                  <Table.HeaderCell>Kullanıcı Tipi</Table.HeaderCell>
-                  <Table.HeaderCell>Pozisyon</Table.HeaderCell>
-                  <Table.HeaderCell>Deapartman</Table.HeaderCell>
-                  <Table.HeaderCell>Düzenle</Table.HeaderCell>
-                  <Table.HeaderCell>İzin Ekle</Table.HeaderCell>
-                  <Table.HeaderCell>Sil</Table.HeaderCell>
+              <Table celled>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.HeaderCell>Tc No</Table.HeaderCell>
+                    <Table.HeaderCell>Personel Adı</Table.HeaderCell>
+                    <Table.HeaderCell>Personel Soyadı</Table.HeaderCell>
+                    <Table.HeaderCell>İşe Başlama Tarihi</Table.HeaderCell>
+                    <Table.HeaderCell>İşten Ayrılma Tarihi</Table.HeaderCell>
+                    <Table.HeaderCell>Doğum Günü</Table.HeaderCell>
+                    <Table.HeaderCell>Telefon Numarası</Table.HeaderCell>
+                    <Table.HeaderCell>Email</Table.HeaderCell>
+                    <Table.HeaderCell>Kullanıcı Tipi</Table.HeaderCell>
+                    <Table.HeaderCell>Pozisyon</Table.HeaderCell>
+                    <Table.HeaderCell>Deapartman</Table.HeaderCell>
+                    <Table.HeaderCell>Düzenle</Table.HeaderCell>
+                    <Table.HeaderCell>İzin Ekle</Table.HeaderCell>
+                    <Table.HeaderCell>Sil</Table.HeaderCell>
 
-                </Table.Row>
-              </Table.Header>
+                  </Table.Row>
+                </Table.Header>
 
-              <Table.Body>
+                <Table.Body>
 
-                {
-                  employees.map(employee => (
+                  {
+                    employees.map(employee => (
 
-                    <Table.Row key={employee.id}>
-                      <Table.Cell><Link to={`/employeeUpdate${employee.id}`}>{employee.tcNo}</Link></Table.Cell>
-                      <Table.Cell>{employee.name}</Table.Cell>
-                      <Table.Cell>{employee.surname}</Table.Cell>
-                      <Table.Cell>{employee.startDateOfWork}</Table.Cell>
-                      <Table.Cell>{employee.leaveDateOfWork}</Table.Cell>
-                      <Table.Cell>{employee.birthday}</Table.Cell>
-                      <Table.Cell>{employee.phoneNumber}</Table.Cell>
-                      <Table.Cell>{employee.email}</Table.Cell>
-                      <Table.Cell>{employee.userType}</Table.Cell>
-                      <Table.Cell>{employee.positionName}</Table.Cell>
-                      <Table.Cell>{employee.departmentName}</Table.Cell>
-                      <Table.Cell><Button color="green" onClick={() => handleUpdate(employee.id)} fluid >Düzenle</Button></Table.Cell>
-                      <Table.Cell><Button color="blue" onClick={() => handlePermission(employee.id)} fluid >İzin Ekle</Button></Table.Cell>
-                      <Table.Cell><Button color="red" onClick={() => handleDelete(employee.id)} fluid >Sil</Button></Table.Cell>
+                      <Table.Row key={employee.id}>
+                        <Table.Cell><Link to={`/employeeUpdate${employee.id}`}>{employee.tcNo}</Link></Table.Cell>
+                        <Table.Cell>{employee.name}</Table.Cell>
+                        <Table.Cell>{employee.surname}</Table.Cell>
+                        <Table.Cell>{employee.startDateOfWork}</Table.Cell>
+                        <Table.Cell>{employee.leaveDateOfWork}</Table.Cell>
+                        <Table.Cell>{employee.birthday}</Table.Cell>
+                        <Table.Cell>{employee.phoneNumber}</Table.Cell>
+                        <Table.Cell>{employee.email}</Table.Cell>
+                        <Table.Cell>{employee.userType}</Table.Cell>
+                        <Table.Cell>{employee.positionName}</Table.Cell>
+                        <Table.Cell>{employee.departmentName}</Table.Cell>
+                        <Table.Cell><Button color="green" onClick={() => handleUpdate(employee.id)} fluid >Düzenle</Button></Table.Cell>
+                        <Table.Cell><Button color="blue" onClick={() => handlePermission(employee.id)} fluid >İzin Ekle</Button></Table.Cell>
+                        <Table.Cell><Button color="red" onClick={() => handleDelete(employee.id)} fluid >Sil</Button></Table.Cell>
 
-                    </Table.Row>
-                  ))
-                }
+                      </Table.Row>
+                    ))
+                  }
 
-              </Table.Body>
+                </Table.Body>
 
-              <Table.Footer>
-                <Table.Row>
-                  <Table.HeaderCell colSpan='3'>
-                    <Menu floated='right' pagination>
-                      <Menu.Item as='a' icon>
-                        <Icon name='chevron left' />
-                      </Menu.Item>
-                      <Menu.Item as='a'>1</Menu.Item>
-                      <Menu.Item as='a'>2</Menu.Item>
-                      <Menu.Item as='a'>3</Menu.Item>
-                      <Menu.Item as='a'>4</Menu.Item>
-                      <Menu.Item as='a' icon>
-                        <Icon name='chevron right' />
-                      </Menu.Item>
-                    </Menu>
-                  </Table.HeaderCell>
-                </Table.Row>
-              </Table.Footer>
-            </Table>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+                <Table.Footer>
+                  <Table.Row>
+                    <Table.HeaderCell colSpan='3'>
+                      <Menu floated='right' pagination>
+                        <Menu.Item as='a' icon>
+                          <Icon name='chevron left' />
+                        </Menu.Item>
+                        <Menu.Item as='a'>1</Menu.Item>
+                        <Menu.Item as='a'>2</Menu.Item>
+                        <Menu.Item as='a'>3</Menu.Item>
+                        <Menu.Item as='a'>4</Menu.Item>
+                        <Menu.Item as='a' icon>
+                          <Icon name='chevron right' />
+                        </Menu.Item>
+                      </Menu>
+                    </Table.HeaderCell>
+                  </Table.Row>
+                </Table.Footer>
+              </Table>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
 
-    </div>
+      </div>
+    
   )
 }

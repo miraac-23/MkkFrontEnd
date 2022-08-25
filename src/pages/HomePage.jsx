@@ -45,7 +45,9 @@ export default function HomePage() {
     function handleClickPermissionAdd() {
         if (role.roles[0] === "ROLE_Admin" || role.roles[0] === "ROLE_IK") {
             navigate('/employeeList')
-        } else {
+        } else if (role.roles[0] === "ROLE_Personel"){
+           navigate('/employeePermission')
+        }else{
             navigate('/noAccessPermission')
         }
 
@@ -182,7 +184,7 @@ export default function HomePage() {
                             <Card.Header style={{ color: 'black', textAlign: 'center', fontSize: '25px', fontWeight: 'bold' }}>Departman Listeleme Ekranı</Card.Header>
                         </Card.Content>
                         <Card.Content extra>
-                            <Button onClick={handleClickPositionList} color='yellow' fluid>Listele</Button>
+                            <Button onClick={handleClickDepartmentList} color='yellow' fluid>Listele</Button>
                         </Card.Content>
                     </Card>
                     <br />

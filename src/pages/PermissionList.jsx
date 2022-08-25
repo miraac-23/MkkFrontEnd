@@ -27,12 +27,13 @@ export default function PermissionList() {
     function handleDelete(id) {
 
         if (window.confirm("Are you sure delete?")) {
-            permissionService.deletePermission(id)
-                .then(() => navigate('/permissionList'));
+            permissionService.deletePermission(id).then(() => navigate('/permissionList'));
+            window.location.reload();
 
         }
     }
 
+    console.log(permissions)
     return (
         <div>
             <Table celled>

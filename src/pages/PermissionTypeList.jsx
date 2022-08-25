@@ -28,7 +28,7 @@ export default function PermissionTypeList() {
             permissionTypeService.deletePermissionType(id)
             .then(() => 
             setStatus('Delete successful'),
-            navigate('/permissionTypeList')
+            window.location.reload()
             
             );
         }  
