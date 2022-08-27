@@ -28,7 +28,7 @@ export default function PositionAdd() {
                 onSubmit={(values) => {
                     positionService.addPosition(values).then(result => {
                         console.log(result);
-                        navigate('/position/add');
+                        navigate('/positionList');
                     })
                 }}
             >

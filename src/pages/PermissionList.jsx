@@ -4,12 +4,17 @@ import { Icon, Menu, Table, Button } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { emphasize } from '@mui/material';
+import EmployeeService from '../services/employeeService';
+
+
+const permissionService = new PermissionService();
+
 
 
 export default function PermissionList() {
 
     const [permissions, setPermissions] = useState([]);
-    const permissionService = new PermissionService();
     const [data, setData] = useState([]);
     const [title, setTitle] = useState("");
 
@@ -19,7 +24,8 @@ export default function PermissionList() {
 
     useEffect(() => {
 
-        permissionService.getPermissions().then(result => setPermissions(result.data.data))
+        permissionService.getPermissions().then(result => setPermissions(result.data.data));
+
 
     }, [])
 
@@ -33,12 +39,17 @@ export default function PermissionList() {
         }
     }
 
+
     console.log(permissions)
+
     return (
         <div>
             <Table celled>
                 <Table.Header>
                     <Table.Row>
+                        <Table.HeaderCell>Personel Id</Table.HeaderCell>
+
+
                         <Table.HeaderCell>Personel Adı</Table.HeaderCell>
                         <Table.HeaderCell>Personel Soyadı</Table.HeaderCell>
                         <Table.HeaderCell>Departman</Table.HeaderCell>
@@ -48,7 +59,6 @@ export default function PermissionList() {
                         <Table.HeaderCell>İzin Bitiş Tarihi</Table.HeaderCell>
                         <Table.HeaderCell>İzi Günü Sayısı</Table.HeaderCell>
                         <Table.HeaderCell>Açıklama</Table.HeaderCell>
-                        {/* <Table.HeaderCell>Güncelle</Table.HeaderCell> */}
                         <Table.HeaderCell>Sil</Table.HeaderCell>
 
                     </Table.Row>
@@ -60,6 +70,11 @@ export default function PermissionList() {
                         permissions.map(permission => (
 
                             <Table.Row key={permission.id}>
+
+
+                                <Table.Cell>{permission.employeeId}</Table.Cell>
+
+
                                 <Table.Cell>{permission.employeeName}</Table.Cell>
                                 <Table.Cell>{permission.employeeSurname}</Table.Cell>
                                 <Table.Cell>{permission.employeeDepartment}</Table.Cell>
@@ -70,7 +85,8 @@ export default function PermissionList() {
                                 <Table.Cell>{permission.permissionDay}</Table.Cell>
                                 <Table.Cell>{permission.statement}</Table.Cell>
 
-                                {/* <Table.Cell><Button color="twitter" >Güncelle</Button></Table.Cell> */}
+
+
                                 <Table.Cell><Button color="red" onClick={() => handleDelete(permission.id)} fluid >Sil</Button></Table.Cell>
 
                                 <Table.Cell>
@@ -78,6 +94,8 @@ export default function PermissionList() {
                                 </Table.Cell>
                             </Table.Row>
                         ))
+
+
                     }
                 </Table.Body>
 

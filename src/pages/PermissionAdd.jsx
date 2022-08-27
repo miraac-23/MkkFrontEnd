@@ -13,6 +13,8 @@ import EmployeeService from '../services/employeeService';
 
 const permissionTypeService = new PermissionTypeService();
 const employeeService = new EmployeeService();
+const permissionService = new PermissionService();
+
 
 
 export default function PermissionAdd() {
@@ -22,7 +24,6 @@ export default function PermissionAdd() {
     const [employee, setEmployee] = useState({});
     const [permissionTypeId, setPermissionTypeId] = useState();
     const [permissionTypes, setPermissionTypes] = useState([]);
-    const permissionService = new PermissionService();
     
     const initialValues = {
         employeeId: id,

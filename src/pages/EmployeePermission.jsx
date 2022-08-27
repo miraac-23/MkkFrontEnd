@@ -26,13 +26,22 @@ export default function EmployeeList() {
     const [employee, setEmployee] = useState({})
     const employeeService = new EmployeeService();
     const [status, setStatus] = useState("");
-    const [permissionTypeId, setPermissionTypeId] = useState();
+    const [permissionTypeId, setPermissionTypeId] = useState('');
     const [employeeId, setEmployeeId] = useState();
     const [permissionTypes, setPermissionTypes] = useState([]);
     const [error, setError] = useState("");
     const [tcValue, setTcValue] = useState();
 
-    const [employeeDate , setEmployeeDate] = useState();
+    const [employeeDate, setEmployeeDate] = useState();
+
+    const [IzinHakkı, setIzinHakkı] = useState();
+
+    const [abc, setAbc] = useState({});
+
+
+    const [state, setState] = useState('');
+
+
 
 
 
@@ -57,7 +66,9 @@ export default function EmployeeList() {
         employeeService.getEmployees().then(result => setEmployees(result.data.data)).catch(error => setError(error));
         permissionTypeService.getPermissionTypes().then(result => setPermissionTypes(result.data.data));
 
+
     }, [])
+
 
 
 
@@ -73,16 +84,34 @@ export default function EmployeeList() {
         try {
             const found = employees.find((employee) => employee.tcNo == state)
             setEmployee(found)
+
             let newDate = new Date()
             let date = newDate.getUTCFullYear();
-            // console.log(date);
-            // console.log(found);
 
-            let finddate = date - found.startDateOfWork.substring(0, 4);
-            setEmployeeDate(finddate)
+            let findDate = date - found.startDateOfWork.substring(0, 4);
+            setEmployeeDate(findDate)
             setEmployeeId(found.id)
 
-            console.log(finddate);
+            let hakEdilenIzin = 0;
+
+            if (findDate > 1 && findDate < 5) {
+
+                hakEdilenIzin = (findDate) * 14;
+            } else if (findDate < 1) {
+
+                hakEdilenIzin = (findDate) * 0;
+
+            } else if (findDate > 5 && findDate < 15) {
+
+                hakEdilenIzin = (findDate) * 20;
+            }
+
+            setIzinHakkı(hakEdilenIzin);
+
+
+            employeeService.getEmployeeById(found.id).then(result => setAbc(result.data.data));
+
+
         } catch (e) {
             alert('Girmiş olduğunuz Tc kimlik numarasına ait personel bulunamadı, geçerli bir kimlik numarası giriniz !...')
             window.location.reload();
@@ -91,12 +120,7 @@ export default function EmployeeList() {
 
     }
 
-
-
-    const [state, setState] = useState('');
-    const [message, setMessage] = useState();
-
-
+    console.log(abc)
 
 
     const handleChange = (event) => {
@@ -141,14 +165,26 @@ export default function EmployeeList() {
                                 <Card.Content>
                                     <Card.Header style={{ fontSize: '30px', fontWeight: 'bold', }}>Personel</Card.Header>
                                     <Card.Meta>
+                                        
                                         <span style={{ fontWeight: 'bold', }} className='date'>Adı: {employee.name}</span><br />
                                         <span style={{ fontWeight: 'bold', }} className='date'>Soyadı: {employee.surname}</span><br />
                                         <span style={{ fontWeight: 'bold', }} className='date'>Departman: {employee.departmentName}</span><br />
                                         <span style={{ fontWeight: 'bold', }} className='date'>Pozisyon: {employee.positionName}</span><br />
                                         <span style={{ fontWeight: 'bold', }} className='date'>Telefon No: {employee.phoneNumber}</span><br />
+
                                     </Card.Meta>
 
                                 </Card.Content>
+
+                                <Card.Content extra>
+
+                                    Hak edilen izin :{IzinHakkı} <br />
+                                    Kalan izin :                <br />
+
+
+                                </Card.Content>
+
+
                                 <Card.Content extra>
                                     <Link to="/home">
 
@@ -158,8 +194,6 @@ export default function EmployeeList() {
                                     </Link>
                                 </Card.Content>
                             </Card>
-
-                            {/* <button onClick={handle} >Submit</button><br/> */}
 
                         </form>
 
@@ -207,7 +241,6 @@ export default function EmployeeList() {
                                 <input type="text" name="employeeId" placeholder="Personel Id'si" defaultValue={employeeId} disabled />
 
 
-                                {/* <MkkTextInput name="employeeId" placeholder="Personel Id"  onChange={handlehandleEmployeeIdChange} value={employeeId} /> */}
 
 
                                 <label>İzin Günü</label>

@@ -31,7 +31,7 @@ export default function Navi() {
 
     function handleSignedIn() {
         setIsAuthenticated(true)
-        navigate('/home')
+        //navigate('/home')
 
     }
 

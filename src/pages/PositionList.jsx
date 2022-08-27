@@ -29,7 +29,7 @@ export default function PositionList() {
     if (window.confirm("Are you sure delete?")) {
         positionService.deletePosition(id)
         .then(() => setStatus('Delete successful'));
-        navigate('/positionList');
+        window.location.reload();
 
     }  
 }

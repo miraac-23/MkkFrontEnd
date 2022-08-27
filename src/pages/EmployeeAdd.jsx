@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from "yup";
+
 import { Grid, Button, Divider, Form as SemanticForm, Message, Card, Dropdown, Select, Segment } from 'semantic-ui-react';
 import MkkTextInput from '../utilities/customFormControls/MkkTextInput';
 import { useNavigate } from 'react-router-dom';
@@ -33,9 +34,7 @@ export default function EmployeeAdd() {
         phoneNumber: "",
         email: "",
         password: "",
-        //userType: "",
-        // positionId: "",
-        //  departmentId: "",
+       
     }
 
     const schema = Yup.object({
@@ -45,11 +44,10 @@ export default function EmployeeAdd() {
         startDateOfWork: Yup.date().required("İşe Başlama Tarihi Zorunlu"),
         leaveDateOfWork: Yup.date().required("İşten Ayrılma Tarihi Zorunlu"),
         birthday: Yup.date().required("Doğum Günü"),
+        email: Yup.string().required("Email alanı doldurulması zorunlu").email(),
         phoneNumber: Yup.number().required("Telefon Numarası"),
         password: Yup.string().required("Şifre Zorunlu "),
-        //userType: Yup.string().required("Kullanıcı Tipi"),
-        // positionId: Yup.number().required("Pozisyon Id Zorunlu"),
-        // departmentId: Yup.number().required("Departman Id Zorunlu"),
+       
 
     })
 
