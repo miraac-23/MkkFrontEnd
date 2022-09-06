@@ -13,6 +13,8 @@ export default function HomePage() {
     const [role, setRole] = useState(JSON.parse(window.localStorage.getItem("user")));
 
 
+    console.log(role.username)
+
 
 
     function handleClickEmployeeList() {

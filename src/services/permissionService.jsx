@@ -2,23 +2,30 @@
 import axios from "axios";
 import authHeader from "./authHeader";
 
+const API_URL = "http://localhost:8080/api/permissions/";
+
 
 
 export default class PermissionService {
 
     addPermission = body => {
-        return axios.post("http://localhost:8080/api/permissions/add",body , { headers: authHeader() })
+        return axios.post(API_URL + "add", body, { headers: authHeader() })
     }
 
-    getPermissions(){
-        return axios.get("http://localhost:8080/api/permissions/getPermissionWithEmployeeAndPermissionType" , { headers: authHeader() })
+    getPermissions() {
+        return axios.get(API_URL + "getPermissionWithEmployeeAndPermissionType", { headers: authHeader() })
     }
 
-    deletePermission(id){
+    deletePermission(id) {
 
-        return axios.delete("http://localhost:8080/api/permissions/delete?permission=" +id,  { headers: authHeader() })
+        return axios.delete( API_URL + "delete?permission=" + id, { headers: authHeader() })
     }
 
-    
- 
+    getPermissionDaySum() {
+
+        return axios.get(API_URL + "getPermissionDaySum", { headers: authHeader() })
+    }
+
+
+
 }

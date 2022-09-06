@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from "yup";
-import { Button, Divider, Dropdown, Select, Grid, Segment, Table } from "semantic-ui-react";
+import { Button, Divider, Dropdown, Select, Grid, Segment, Table, Card, Icon, } from "semantic-ui-react";
 import MkkTextInput from '../utilities/customFormControls/MkkTextInput'
 import PermissionService from '../services/permissionService';
 import axios from "axios";
@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 import PermissionTypeService from '../services/permissionTypeService';
 import EmployeeService from '../services/employeeService';
+import { NavLink } from "react-router-dom";
+
 
 
 const permissionTypeService = new PermissionTypeService();
@@ -24,12 +26,21 @@ export default function PermissionAdd() {
     const [employee, setEmployee] = useState({});
     const [permissionTypeId, setPermissionTypeId] = useState();
     const [permissionTypes, setPermissionTypes] = useState([]);
-    
+
+
+    const [employeePermissionSum, setEmployeePermissionSum] = useState([]);
+    const [abc, setAbc] = useState({});
+    const [message, setMessage] = useState("");
+    const [remainingPermission, setRemainingPermission] = useState();
+    const [IzinHakkı, setIzinHakkı] = useState();
+    const [state, setState] = useState('');
+    const [employeeId, setEmployeeId] = useState('');
+
+
     const initialValues = {
         employeeId: id,
         endDate: "",
         permissionDay: "",
-        // permissionTypeId: "",
         startingDate: "",
         statement: "",
 
@@ -40,6 +51,8 @@ export default function PermissionAdd() {
         employeeService.getEmployeeById(id).then(result => setEmployee(result.data.data));
         employeeService.getEmployees().then(result => setEmployees(result.data.data));
         permissionTypeService.getPermissionTypes().then(result => setPermissionTypes(result.data.data));
+        permissionService.getPermissionDaySum().then(result => setEmployeePermissionSum(result.data.data));
+
 
 
     }, [])
@@ -55,16 +68,96 @@ export default function PermissionAdd() {
 
 
 
-
     const navigate = useNavigate();
     const schema = Yup.object({
         employeeId: Yup.number().required("Personel Id girilmesi zorunlu"),
         endDate: Yup.date().required("İzin bitiş tarihi girilmesi zorunlu"),
         permissionDay: Yup.number().required("İzin günü girilmesi zorunlu"),
-        // permissionTypeId: Yup.number().required("İzin türü id girilmesi zorunlu"),
         startingDate: Yup.date().required("İzin başlangıç tarihi girilmesi zorunlu"),
 
     })
+
+    function handle() {
+
+        try {
+
+            let resultPermissions = 0;
+
+            let newDate = new Date()
+
+            let currentYear = newDate.getUTCFullYear();
+            let currentMounth = (newDate.getUTCMonth() + 1).toString();
+            let currentDay = newDate.getDate();
+
+            let employeeYear = employee.startDateOfWork.substring(0, 4);
+            let employeeMounth = (employee.startDateOfWork.substring(5, 7));
+            let employeeDay = employee.startDateOfWork.substring(8, 10);
+
+            let resultYear = (currentYear - employeeYear);
+            let resultMounth = Math.abs((currentMounth - employeeMounth));
+            let resultDay = Math.abs((currentDay - employeeDay));
+
+
+
+            if (resultYear == 0) {
+                setIzinHakkı(0)
+            } else {
+                let hakEdilenIzin = 0;
+                if (currentMounth <= employeeMounth) {
+
+                    for (let i = 1; i <= resultYear; i++) {
+
+                        if (i <= 5) {
+                            hakEdilenIzin += 14;
+                        }
+                        if (i > 5 && i <= 15) {
+                            hakEdilenIzin += 20;
+                        }
+                        if (i > 15) {
+                            hakEdilenIzin += 26;
+                        }
+                    }
+                    setIzinHakkı(hakEdilenIzin);
+
+                }
+                else {
+                    for (let i = 1; i <= resultYear; i++) {
+
+                        if (i <= 5) {
+                            hakEdilenIzin += 14;
+                        }
+                        if (i > 5 && i <= 15) {
+                            hakEdilenIzin += 20;
+                        }
+                        if (i > 15) {
+                            hakEdilenIzin += 26;
+                        }
+                    }
+                    setIzinHakkı(hakEdilenIzin);
+                }
+            }
+
+            try {
+                const foundPermission = employeePermissionSum.find((permissionSum) => permissionSum.employeeId == id)
+
+                setRemainingPermission(foundPermission.employeePermissionDaySum);
+
+            } catch (e) {
+
+                setMessage(0)
+
+            }
+
+
+            employeeService.getEmployeeById(id).then(result => setAbc(result.data.data));
+
+
+        } catch (e) {
+            alert('Girmiş olduğunuz Tc kimlik numarasına ait personel bulunamadı, geçerli bir kimlik numarası giriniz !...')
+            window.location.reload();
+        }
+
+    }
 
 
 
@@ -77,33 +170,36 @@ export default function PermissionAdd() {
 
 
                 <Grid.Column width={5}>
-                    <Table celled>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>Personel Adı</Table.HeaderCell>
-                                <Table.HeaderCell>Personel Soyadı</Table.HeaderCell>
+                 
 
-                            </Table.Row>
-                        </Table.Header>
+                    <Card style={{ marginLeft: '1.5em' }}>
+                        <Card.Content>
+                            <Card.Header style={{ fontSize: '30px', fontWeight: 'bold', }}>Personel</Card.Header>
+                            <Card.Meta>
 
-                        <Table.Body>
-
+                                <span style={{ fontWeight: 'bold', }} className='date'>Adı: {employee.name}</span><br />
+                                <span style={{ fontWeight: 'bold', }} className='date'>Soyadı: {employee.surname}</span><br />
 
 
-                            <Table.Row>
-                                <Table.Cell>{employee.name}</Table.Cell>
-                                <Table.Cell>{employee.surname}</Table.Cell>
-                            </Table.Row>
+                            </Card.Meta>
+
+                        </Card.Content>
+
+                        <Card.Content extra>
+
+                            Hak edilen izin :{IzinHakkı} <br />
+                            Kullanılan izin :{remainingPermission} {message}<br />
+                            Kalan izin : {(IzinHakkı) - (remainingPermission)}  {message}  <br />
+
+                        </Card.Content>
 
 
-                        </Table.Body>
-
-
-                    </Table>
+                        <Card.Content extra>
+                        <Button color='green' onClick={handle} fluid>Hesapla</Button>
+                        </Card.Content>
+                    </Card>
 
                 </Grid.Column>
-
-
 
 
                 <Grid.Column width={11}>
@@ -136,9 +232,9 @@ export default function PermissionAdd() {
                             </label>
 
                             <label>İzin Başlangıç Tarihi</label>
-                            <MkkTextInput name="startingDate" placeholder="İzin Başlangıç Tarihi" />
+                            <MkkTextInput name="startingDate" placeholder="İzin Başlangıç Tarihi (YYYY-AA-GG)" />
                             <label>İzin Bitiş Tarihi</label>
-                            <MkkTextInput name="endDate" placeholder="İzin Bitiş Tarihi" />
+                            <MkkTextInput name="endDate" placeholder="İzin Bitiş Tarihi (YYYY-AA-GG)" />
 
                             <label>Persone Id</label>
                             <MkkTextInput name="employeeId" placeholder="Personel Id" disabled />

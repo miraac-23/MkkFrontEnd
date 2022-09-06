@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import EmployeeService from '../services/employeeService';
 import { Formik, Form } from 'formik';
-import { Icon, Menu, Table, Button, Grid, Divider, Card, Image } from 'semantic-ui-react';
+import { Icon,  Button, Grid, Divider, Card,  } from 'semantic-ui-react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
-import { NavLink } from "react-router-dom";
 import MkkTextInput from '../utilities/customFormControls/MkkTextInput'
 import PermissionTypeService from '../services/permissionTypeService';
 import PermissionService from '../services/permissionService';
 import * as Yup from "yup";
-import { useParams } from 'react-router';
 
 
 const permissionTypeService = new PermissionTypeService();
-const employeeService = new EmployeeService();
 const permissionService = new PermissionService();
 
 
@@ -25,9 +22,8 @@ export default function EmployeeList() {
     const [employees, setEmployees] = useState([]);
     const [employee, setEmployee] = useState({})
     const employeeService = new EmployeeService();
-    const [status, setStatus] = useState("");
     const [permissionTypeId, setPermissionTypeId] = useState('');
-    const [employeeId, setEmployeeId] = useState();
+    const [employeeId, setEmployeeId] = useState('');
     const [permissionTypes, setPermissionTypes] = useState([]);
     const [error, setError] = useState("");
     const [tcValue, setTcValue] = useState();
@@ -38,11 +34,18 @@ export default function EmployeeList() {
 
     const [abc, setAbc] = useState({});
 
+    const [permissionSum, setPermissionSum] = useState({});
+
 
     const [state, setState] = useState('');
 
+    const [mirac, setMirac] = useState('');
 
+    const [employeePermissionSum, setEmployeePermissionSum] = useState([]);
 
+    const [remainingPermission, setRemainingPermission] = useState();
+    const [resultPermission , setResultPermission] = useState();
+    const [message, setMessage] = useState("");
 
 
 
@@ -52,6 +55,7 @@ export default function EmployeeList() {
         startingDate: "",
         statement: "",
     }
+    
 
     const schema = Yup.object({
         endDate: Yup.date().required("İzin bitiş tarihi girilmesi zorunlu"),
@@ -65,10 +69,10 @@ export default function EmployeeList() {
 
         employeeService.getEmployees().then(result => setEmployees(result.data.data)).catch(error => setError(error));
         permissionTypeService.getPermissionTypes().then(result => setPermissionTypes(result.data.data));
+        permissionService.getPermissionDaySum().then(result => setEmployeePermissionSum(result.data.data));
 
 
     }, [])
-
 
 
 
@@ -79,37 +83,85 @@ export default function EmployeeList() {
     };
 
 
+
     function handle() {
 
         try {
-            const found = employees.find((employee) => employee.tcNo == state)
-            setEmployee(found)
+
+
+            const foundEmployee = employees.find((employee) => employee.tcNo == state)
+            setEmployee(foundEmployee)
+            setEmployeeId(foundEmployee.id)
+
+            let resultPermissions = 0;
 
             let newDate = new Date()
-            let date = newDate.getUTCFullYear();
 
-            let findDate = date - found.startDateOfWork.substring(0, 4);
-            setEmployeeDate(findDate)
-            setEmployeeId(found.id)
+            let currentYear = newDate.getUTCFullYear();
+            let currentMounth = (newDate.getUTCMonth() + 1).toString();
+            let currentDay = newDate.getDate();
 
-            let hakEdilenIzin = 0;
+            let employeeYear = foundEmployee.startDateOfWork.substring(0, 4);
+            let employeeMounth = (foundEmployee.startDateOfWork.substring(5, 7));
+            let employeeDay = foundEmployee.startDateOfWork.substring(8, 10);
 
-            if (findDate > 1 && findDate < 5) {
+            let resultYear = (currentYear - employeeYear);
+            let resultMounth = Math.abs((currentMounth - employeeMounth));
+            let resultDay = Math.abs((currentDay - employeeDay));
 
-                hakEdilenIzin = (findDate) * 14;
-            } else if (findDate < 1) {
 
-                hakEdilenIzin = (findDate) * 0;
 
-            } else if (findDate > 5 && findDate < 15) {
+            if (resultYear == 0) {
+                setIzinHakkı(0)
+            } else {
+                let hakEdilenIzin = 0;
+                if (currentMounth <= employeeMounth ) {
 
-                hakEdilenIzin = (findDate) * 20;
+                    for (let i = 1; i <= resultYear; i++) {
+
+                        if (i <= 5) {
+                            hakEdilenIzin += 14;
+                        }
+                        if (i > 5 && i <= 15) {
+                            hakEdilenIzin += 20;
+                        }
+                        if (i > 15) {
+                            hakEdilenIzin += 26;
+                        }
+                    }
+                    setIzinHakkı(hakEdilenIzin);
+
+                 } 
+                else {
+                            for (let i = 1; i <= resultYear; i++) {
+    
+                            if (i <= 5) {
+                                hakEdilenIzin += 14;
+                            }
+                            if (i > 5 && i <= 15) {
+                                hakEdilenIzin += 20;
+                            }
+                            if (i > 15) {
+                                hakEdilenIzin += 26;
+                            }
+                        }
+                        setIzinHakkı(hakEdilenIzin);
+                }
             }
 
-            setIzinHakkı(hakEdilenIzin);
+            try {
+                const foundPermission = employeePermissionSum.find((permissionSum) => permissionSum.employeeId == foundEmployee.id)
+
+                setRemainingPermission(foundPermission.employeePermissionDaySum);
+
+            } catch (e) {
+
+                setMessage(0)
+                
+            }
 
 
-            employeeService.getEmployeeById(found.id).then(result => setAbc(result.data.data));
+            employeeService.getEmployeeById(foundEmployee.id).then(result => setAbc(result.data.data));
 
 
         } catch (e) {
@@ -117,15 +169,14 @@ export default function EmployeeList() {
             window.location.reload();
         }
 
-
     }
 
-    console.log(abc)
 
 
     const handleChange = (event) => {
         setState(event.target.value);
     }
+
 
 
     const handlehandleEmployeeIdChange = (event) => {
@@ -135,6 +186,8 @@ export default function EmployeeList() {
     const handleSubmit = (event) => {
         event.preventDefault();
     }
+
+
     function handleRefresh() {
         window.location.reload();
     }
@@ -157,6 +210,8 @@ export default function EmployeeList() {
                             <input style={{ border: '3px solid black', borderRadius: '5px', width: '85%', height: '2.5em', marginBottom: '1em', marginTop: '1em' }} type="text" onChange={handleChange} /><br />
 
                             <Button color='green' onClick={handle} >Ara</Button>
+                            {/* <Button color='green' onClick={handleX} >find</Button> */}
+
                             <Button style={{ marginBottom: '3em' }} color='green' onClick={handleRefresh} >Yenile</Button><br />
 
 
@@ -165,7 +220,7 @@ export default function EmployeeList() {
                                 <Card.Content>
                                     <Card.Header style={{ fontSize: '30px', fontWeight: 'bold', }}>Personel</Card.Header>
                                     <Card.Meta>
-                                        
+
                                         <span style={{ fontWeight: 'bold', }} className='date'>Adı: {employee.name}</span><br />
                                         <span style={{ fontWeight: 'bold', }} className='date'>Soyadı: {employee.surname}</span><br />
                                         <span style={{ fontWeight: 'bold', }} className='date'>Departman: {employee.departmentName}</span><br />
@@ -179,7 +234,11 @@ export default function EmployeeList() {
                                 <Card.Content extra>
 
                                     Hak edilen izin :{IzinHakkı} <br />
-                                    Kalan izin :                <br />
+                                    Kullanılan izin :{remainingPermission} {message}<br />
+                                    Kalan izin : {(IzinHakkı) - (remainingPermission)}  {message}  <br />
+
+
+                                   
 
 
                                 </Card.Content>
@@ -231,9 +290,9 @@ export default function EmployeeList() {
                                 </label>
 
                                 <label>İzin Başlangıç Tarihi</label>
-                                <MkkTextInput name="startingDate" placeholder="İzin Başlangıç Tarihi" />
+                                <MkkTextInput name="startingDate" placeholder="İzin Başlangıç Tarihi (YYYY-AA-GG)" />
                                 <label>İzin Bitiş Tarihi</label>
-                                <MkkTextInput name="endDate" placeholder="İzin Bitiş Tarihi" />
+                                <MkkTextInput name="endDate" placeholder="İzin Bitiş Tarihi (YYYY-AA-GG)" />
 
 
 
@@ -263,3 +322,32 @@ export default function EmployeeList() {
         </div>
     )
 }
+
+
+
+
+// if (resultYear == 0) {
+//     setIzinHakkı(0)
+// } else {
+//     let hakEdilenIzin = 0;
+//     if (currentMounth >= employeeMounth && currentDay >= employeeDay) {
+
+      
+//         for (let i = 1; i <= resultYear; i++) {
+
+//             if (i <= 5) {
+//                 hakEdilenIzin += 14;
+//             }
+//             if (i > 5 && i <= 15) {
+//                 hakEdilenIzin += 20;
+//             }
+//             if (i > 15) {
+//                 hakEdilenIzin += 26;
+//             }
+//         }
+//         setIzinHakkı(hakEdilenIzin);
+
+//     } else {
+//         console.log("Error1")
+//     }
+// }

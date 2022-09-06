@@ -20,6 +20,7 @@ import PermissionTypeList from '../pages/PermissionTypeList';
 import NoAccesPermission from '../pages/NoAccesPermission';
 import EmployeePermission from '../pages/EmployeePermission';
 import EmployeePermissionList from '../pages/EmployeePermissionList';
+import PermissionListForEmployee from '../pages/PermissionListForEmployee';
 
 
 export default function Dashboard() {
@@ -54,6 +55,8 @@ export default function Dashboard() {
                         <Route path="/employeePermission" element={<EmployeePermission />} />s
                         <Route exact path="/employeePermissionList" element={<EmployeePermissionList />} />
                         <Route path="/employeePermissionList:tcNo" element={<EmployeePermissionList />} />
+                        <Route path="/permissionListForEmployee" element={<PermissionListForEmployee />} />
+
 
 
 

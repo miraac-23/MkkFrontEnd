@@ -47,7 +47,6 @@ export default function PermissionList() {
             <Table celled>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Personel Id</Table.HeaderCell>
 
 
                         <Table.HeaderCell>Personel Adı</Table.HeaderCell>
@@ -72,7 +71,6 @@ export default function PermissionList() {
                             <Table.Row key={permission.id}>
 
 
-                                <Table.Cell>{permission.employeeId}</Table.Cell>
 
 
                                 <Table.Cell>{permission.employeeName}</Table.Cell>
